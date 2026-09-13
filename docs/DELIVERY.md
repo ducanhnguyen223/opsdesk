@@ -53,8 +53,9 @@ not a reduced substitute for the full plan in `../../../docs/plans/2026-09-10-sa
   and scoped actor identity/revision; no raw request storage. Restart reuse, actor/revision and
   evidence misses, duplicate in-flight blocking and corrupted-entry fail-closed behavior tested.
   The offline demo leaves it disabled.
-- [ ] Measured semantic-cache experiment with stale/permission isolation checks. Do not enable
-  it by default unless false-hit evaluation demonstrates an acceptable boundary.
+- [x] Measured semantic-cache experiment with stale/permission isolation checks. Scope/evidence
+  changes are hard misses. Negation pairs scored above valid paraphrases, so the safe development
+  threshold had zero useful hits; raw holdout results are stored and semantic cache stays disabled.
 - [ ] Complete web UI using the real backend: identity, analysis, citations, review, tickets/history,
   document management and usage/errors. No hardcoded success responses.
 - [ ] Real authentication/deployment configuration for any public demo; no public demo-login bypass.

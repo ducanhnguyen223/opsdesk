@@ -1,0 +1,260 @@
+{
+  "kind": "offline synthetic semantic-cache experiment",
+  "dataset": "opsdesk-semantic-cache-v1",
+  "dataset_sha256": "e8a10744497873f97cfd96637d3f2349fde66b801b76530b7e590feb8baf6000",
+  "model": "intfloat/multilingual-e5-small",
+  "model_revision": "614241f622f53c4eeff9890bdc4f31cfecc418b3",
+  "model_file": "onnx/model_O4.onnx",
+  "threshold_selected_on": "development",
+  "threshold": 1.000001,
+  "acceptance": {
+    "max_holdout_false_hits": 0,
+    "min_holdout_true_hit_rate": 0.8
+  },
+  "metrics": {
+    "development": {
+      "pairs": 16,
+      "scope_blocked": 2,
+      "true_hits": 0,
+      "false_hits": 0,
+      "true_hit_rate": 0.0,
+      "false_hit_rate": 0.0
+    },
+    "holdout": {
+      "pairs": 8,
+      "scope_blocked": 1,
+      "true_hits": 0,
+      "false_hits": 0,
+      "true_hit_rate": 0.0,
+      "false_hit_rate": 0.0
+    }
+  },
+  "recommend_enable": false,
+  "results": [
+    {
+      "id": "D01",
+      "split": "development",
+      "same_answer": true,
+      "left": "Lô SHP-1042 chậm hai ngày, cần xử lý thế nào?",
+      "right": "Shipment SHP-1042 trễ ETA 48 giờ, bước tiếp theo là gì?",
+      "scope_match": true,
+      "similarity": 0.91546389
+    },
+    {
+      "id": "D02",
+      "split": "development",
+      "same_answer": true,
+      "left": "Kiện hàng bị móp và ướt khi tới trạm.",
+      "right": "Bao bì biến dạng, ngấm nước lúc nhập kho.",
+      "scope_match": true,
+      "similarity": 0.88798904
+    },
+    {
+      "id": "D03",
+      "split": "development",
+      "same_answer": true,
+      "left": "Khách muốn đổi địa chỉ nhận trước khi hàng rời trạm.",
+      "right": "Điều chỉnh điểm giao khi kiện vẫn ở kho cuối.",
+      "scope_match": true,
+      "similarity": 0.87205997
+    },
+    {
+      "id": "D04",
+      "split": "development",
+      "same_answer": true,
+      "left": "Tiền COD tài xế thu không khớp đơn.",
+      "right": "Khoản thu hộ lệch so với giá trị đơn hàng.",
+      "scope_match": true,
+      "similarity": 0.89521386
+    },
+    {
+      "id": "D05",
+      "split": "development",
+      "same_answer": true,
+      "left": "Hai ngày không có lần quét mới của kiện.",
+      "right": "Kiện mất dấu giữa hai trung tâm suốt 48 giờ.",
+      "scope_match": true,
+      "similarity": 0.90056223
+    },
+    {
+      "id": "D06",
+      "split": "development",
+      "same_answer": true,
+      "left": "Người nhận vắng mặt, xin giao lại.",
+      "right": "Hẹn một lần phát khác vì khách không có nhà.",
+      "scope_match": true,
+      "similarity": 0.87179858
+    },
+    {
+      "id": "D07",
+      "split": "development",
+      "same_answer": true,
+      "left": "Lô bị hải quan giữ vì thiếu giấy tờ.",
+      "right": "Shipment chưa thông quan do chứng từ chưa đủ.",
+      "scope_match": true,
+      "similarity": 0.90377128
+    },
+    {
+      "id": "D08",
+      "split": "development",
+      "same_answer": true,
+      "left": "Mưa bão làm tuyến đường không an toàn.",
+      "right": "Tạm dừng xe vì đường ngập do thiên tai.",
+      "scope_match": true,
+      "similarity": 0.89627248
+    },
+    {
+      "id": "D09",
+      "split": "development",
+      "same_answer": false,
+      "left": "Lô SHP-1042 đang chậm hai ngày.",
+      "right": "Lô SHP-1042 không chậm và đã giao đúng hạn.",
+      "scope_match": true,
+      "similarity": 0.96767735
+    },
+    {
+      "id": "D10",
+      "split": "development",
+      "same_answer": false,
+      "left": "Thông báo khách hàng ngay khi giao chậm.",
+      "right": "Không thông báo khách hàng trước khi quản lý quyết định.",
+      "scope_match": true,
+      "similarity": 0.91980628
+    },
+    {
+      "id": "D11",
+      "split": "development",
+      "same_answer": false,
+      "left": "Người nhận vắng mặt, tạo yêu cầu phát lại.",
+      "right": "Người nhận từ chối, hoàn trả kiện cho người gửi.",
+      "scope_match": true,
+      "similarity": 0.90364808
+    },
+    {
+      "id": "D12",
+      "split": "development",
+      "same_answer": false,
+      "left": "Cảm biến nhiệt vượt ngưỡng, cách ly lô lạnh.",
+      "right": "Cảm biến nhiệt trong ngưỡng, tiếp tục vận chuyển lô lạnh.",
+      "scope_match": true,
+      "similarity": 0.96359274
+    },
+    {
+      "id": "D13",
+      "split": "development",
+      "same_answer": false,
+      "left": "Kiện nghi thất lạc, chưa kết luận mất hàng.",
+      "right": "Kiện đã xác nhận mất, thực hiện quy trình bồi thường.",
+      "scope_match": true,
+      "similarity": 0.9207419
+    },
+    {
+      "id": "D14",
+      "split": "development",
+      "same_answer": false,
+      "left": "Đơn mới giao một phần, chưa được đóng hồ sơ.",
+      "right": "Đơn đã giao đủ toàn bộ, đóng hồ sơ.",
+      "scope_match": true,
+      "similarity": 0.94090982
+    },
+    {
+      "id": "D15",
+      "split": "development",
+      "same_answer": false,
+      "left": "Lô SHP-1042 chậm hai ngày.",
+      "right": "Lô SHP-1042 chậm hai ngày.",
+      "right_scope": {
+        "tenant": "B"
+      },
+      "scope_match": false,
+      "similarity": 1.0
+    },
+    {
+      "id": "D16",
+      "split": "development",
+      "same_answer": false,
+      "left": "Lô SHP-1042 chậm hai ngày.",
+      "right": "Lô SHP-1042 chậm hai ngày.",
+      "right_scope": {
+        "evidence": "ev-delay-v3"
+      },
+      "scope_match": false,
+      "similarity": 1.0
+    },
+    {
+      "id": "H01",
+      "split": "holdout",
+      "same_answer": true,
+      "left": "Khách báo thùng bị rách khi nhận.",
+      "right": "Kiện thủng bao bì tại điểm phát.",
+      "scope_match": true,
+      "similarity": 0.88141629
+    },
+    {
+      "id": "H02",
+      "split": "holdout",
+      "same_answer": true,
+      "left": "Thiết bị chứa pin dễ cháy cần gửi đi.",
+      "right": "Thủ tục vận chuyển hàng có pin lithium.",
+      "scope_match": true,
+      "similarity": 0.89260296
+    },
+    {
+      "id": "H03",
+      "split": "holdout",
+      "same_answer": true,
+      "left": "Khách nói chưa nhận dù trạng thái đã phát.",
+      "right": "Tranh chấp giao hàng cần kiểm tra ảnh và chữ ký.",
+      "scope_match": true,
+      "similarity": 0.85890768
+    },
+    {
+      "id": "H04",
+      "split": "holdout",
+      "same_answer": true,
+      "left": "Một đơn được tách giao nhiều ngày.",
+      "right": "Đối chiếu các kiện con của lần giao từng phần.",
+      "scope_match": true,
+      "similarity": 0.89956139
+    },
+    {
+      "id": "H05",
+      "split": "holdout",
+      "same_answer": false,
+      "left": "Được phép hứa ngày thông quan với khách.",
+      "right": "Không hứa ngày thông quan khi chưa có xác nhận.",
+      "scope_match": true,
+      "similarity": 0.9227712
+    },
+    {
+      "id": "H06",
+      "split": "holdout",
+      "same_answer": false,
+      "left": "Hai kiện chung mã vận đơn, giữ lại tại trạm.",
+      "right": "Hai kiện có mã riêng hợp lệ, tiếp tục luân chuyển.",
+      "scope_match": true,
+      "similarity": 0.92493252
+    },
+    {
+      "id": "H07",
+      "split": "holdout",
+      "same_answer": false,
+      "left": "Khách vắng mặt và muốn hẹn giao lại.",
+      "right": "Khách đã nhận hàng và không cần phát lại.",
+      "scope_match": true,
+      "similarity": 0.90760107
+    },
+    {
+      "id": "H08",
+      "split": "holdout",
+      "same_answer": false,
+      "left": "Thông báo khách hàng về lô chậm.",
+      "right": "Thông báo khách hàng về lô chậm.",
+      "right_scope": {
+        "auth_revision": 2
+      },
+      "scope_match": false,
+      "similarity": 1.0
+    }
+  ]
+}

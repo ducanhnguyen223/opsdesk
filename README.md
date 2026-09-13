@@ -50,7 +50,7 @@ Stop the server with Ctrl-C. Use `--db /path/to/new.sqlite3` for a separate demo
 
 ## What is verified
 
-- 84 Python tests covering workflow, retrieval, provider contracts, usage/cost allowances, workspace,
+- 85 Python tests covering workflow, retrieval, provider contracts, usage/cost allowances, workspace,
   case/draft persistence and PDF extraction. A Node check exercises the unsaved-draft guard.
 - Browser-observed case workflow: filter, inspect, claim, analyze, review, approve,
   resolve and inspect audit history. Draft versions v1/v2 survived reopening the page.
@@ -127,7 +127,9 @@ Stop the server with Ctrl-C. Use `--db /path/to/new.sqlite3` for a separate demo
   response. Its key covers model, prompt/schema, complete provider input, tenant, actor, role
   and authorization revision. Changed evidence or permissions miss the cache; an in-flight
   claim blocks duplicate upstream calls and expires after 60 seconds. The default demo does
-  not enable this cache. Semantic caching remains an unproven experiment, not a feature claim.
+  not enable this cache. A frozen 24-pair semantic-cache experiment found that answer-changing
+  negations scored up to 0.968, above every valid paraphrase. The only development threshold
+  with zero false hits produced zero true hits, so semantic caching remains disabled.
 - Provider output cannot choose arbitrary actions or citations. The hostile note
   reaches the fake adapter in tests, but this does not establish LLM prompt-injection robustness.
 - Tests freeze time at the fixture timestamp; the server checks policy validity
@@ -161,11 +163,14 @@ The optional retrieval experiment does not affect the app or default verificatio
 python3 -m venv .venv-embeddings
 .venv-embeddings/bin/python -m pip install -r requirements-embeddings.txt
 .venv-embeddings/bin/python evaluate_retrieval.py
+.venv-embeddings/bin/python evaluate_semantic_cache.py --offline
 ```
 
 It downloads a 240 MB MIT-licensed multilingual E5 ONNX model into
 `~/.cache/opsdesk/fastembed` and writes raw rankings and metrics to
 `artifacts/retrieval_evaluation.json`. Use `--offline` after the first download.
+The semantic-cache command writes every pair, similarity, selected development threshold and
+holdout outcome to `artifacts/semantic_cache_evaluation.json`; its current recommendation is false.
 
 The GitHub Actions workflow runs the same command on a clean runner. Published checkpoints
 have passing hosted runs; the optional 240 MB embedding benchmark remains an explicit local run.

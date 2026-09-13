@@ -1,0 +1,31 @@
+{
+  "snapshot": "opsdesk-semantic-cache-v1",
+  "acceptance": {"max_holdout_false_hits": 0, "min_holdout_true_hit_rate": 0.8},
+  "default_scope": {"tenant":"A","actor":"A-operator","role":"operator","auth_revision":1,"evidence":"ev-delay-v2","model":"model-v1","prompt":"prompt-v1"},
+  "pairs": [
+    {"id":"D01","split":"development","same_answer":true,"left":"Lô SHP-1042 chậm hai ngày, cần xử lý thế nào?","right":"Shipment SHP-1042 trễ ETA 48 giờ, bước tiếp theo là gì?"},
+    {"id":"D02","split":"development","same_answer":true,"left":"Kiện hàng bị móp và ướt khi tới trạm.","right":"Bao bì biến dạng, ngấm nước lúc nhập kho."},
+    {"id":"D03","split":"development","same_answer":true,"left":"Khách muốn đổi địa chỉ nhận trước khi hàng rời trạm.","right":"Điều chỉnh điểm giao khi kiện vẫn ở kho cuối."},
+    {"id":"D04","split":"development","same_answer":true,"left":"Tiền COD tài xế thu không khớp đơn.","right":"Khoản thu hộ lệch so với giá trị đơn hàng."},
+    {"id":"D05","split":"development","same_answer":true,"left":"Hai ngày không có lần quét mới của kiện.","right":"Kiện mất dấu giữa hai trung tâm suốt 48 giờ."},
+    {"id":"D06","split":"development","same_answer":true,"left":"Người nhận vắng mặt, xin giao lại.","right":"Hẹn một lần phát khác vì khách không có nhà."},
+    {"id":"D07","split":"development","same_answer":true,"left":"Lô bị hải quan giữ vì thiếu giấy tờ.","right":"Shipment chưa thông quan do chứng từ chưa đủ."},
+    {"id":"D08","split":"development","same_answer":true,"left":"Mưa bão làm tuyến đường không an toàn.","right":"Tạm dừng xe vì đường ngập do thiên tai."},
+    {"id":"D09","split":"development","same_answer":false,"left":"Lô SHP-1042 đang chậm hai ngày.","right":"Lô SHP-1042 không chậm và đã giao đúng hạn."},
+    {"id":"D10","split":"development","same_answer":false,"left":"Thông báo khách hàng ngay khi giao chậm.","right":"Không thông báo khách hàng trước khi quản lý quyết định."},
+    {"id":"D11","split":"development","same_answer":false,"left":"Người nhận vắng mặt, tạo yêu cầu phát lại.","right":"Người nhận từ chối, hoàn trả kiện cho người gửi."},
+    {"id":"D12","split":"development","same_answer":false,"left":"Cảm biến nhiệt vượt ngưỡng, cách ly lô lạnh.","right":"Cảm biến nhiệt trong ngưỡng, tiếp tục vận chuyển lô lạnh."},
+    {"id":"D13","split":"development","same_answer":false,"left":"Kiện nghi thất lạc, chưa kết luận mất hàng.","right":"Kiện đã xác nhận mất, thực hiện quy trình bồi thường."},
+    {"id":"D14","split":"development","same_answer":false,"left":"Đơn mới giao một phần, chưa được đóng hồ sơ.","right":"Đơn đã giao đủ toàn bộ, đóng hồ sơ."},
+    {"id":"D15","split":"development","same_answer":false,"left":"Lô SHP-1042 chậm hai ngày.","right":"Lô SHP-1042 chậm hai ngày.","right_scope":{"tenant":"B"}},
+    {"id":"D16","split":"development","same_answer":false,"left":"Lô SHP-1042 chậm hai ngày.","right":"Lô SHP-1042 chậm hai ngày.","right_scope":{"evidence":"ev-delay-v3"}},
+    {"id":"H01","split":"holdout","same_answer":true,"left":"Khách báo thùng bị rách khi nhận.","right":"Kiện thủng bao bì tại điểm phát."},
+    {"id":"H02","split":"holdout","same_answer":true,"left":"Thiết bị chứa pin dễ cháy cần gửi đi.","right":"Thủ tục vận chuyển hàng có pin lithium."},
+    {"id":"H03","split":"holdout","same_answer":true,"left":"Khách nói chưa nhận dù trạng thái đã phát.","right":"Tranh chấp giao hàng cần kiểm tra ảnh và chữ ký."},
+    {"id":"H04","split":"holdout","same_answer":true,"left":"Một đơn được tách giao nhiều ngày.","right":"Đối chiếu các kiện con của lần giao từng phần."},
+    {"id":"H05","split":"holdout","same_answer":false,"left":"Được phép hứa ngày thông quan với khách.","right":"Không hứa ngày thông quan khi chưa có xác nhận."},
+    {"id":"H06","split":"holdout","same_answer":false,"left":"Hai kiện chung mã vận đơn, giữ lại tại trạm.","right":"Hai kiện có mã riêng hợp lệ, tiếp tục luân chuyển."},
+    {"id":"H07","split":"holdout","same_answer":false,"left":"Khách vắng mặt và muốn hẹn giao lại.","right":"Khách đã nhận hàng và không cần phát lại."},
+    {"id":"H08","split":"holdout","same_answer":false,"left":"Thông báo khách hàng về lô chậm.","right":"Thông báo khách hàng về lô chậm.","right_scope":{"auth_revision":2}}
+  ]
+}
