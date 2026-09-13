@@ -2,7 +2,10 @@
 
 Only explicit construction can make paid requests; no environment auto-discovery.
 """
+from contextlib import closing
+import hashlib
 import json
+import sqlite3
 import time
 
 import httpx
@@ -27,10 +30,62 @@ SCHEMA = {"type": "object", "additionalProperties": False,
     "required": ["action", "citation_ids", "draft_message"]}
 
 
+class ExactCache:
+    """Persistent exact-response cache; stores a digest, never request content."""
+    def __init__(self, path):
+        self.path = str(path)
+        with closing(sqlite3.connect(self.path)) as db, db:
+            db.execute("""CREATE TABLE IF NOT EXISTS provider_cache (
+                key TEXT PRIMARY KEY, status TEXT NOT NULL, body TEXT,
+                claimed_at REAL NOT NULL)""")
+
+    def key(self, actor, payload):
+        if not isinstance(actor, dict) or any(actor.get(k) is None for k in
+                ("tenant_id", "id", "role", "auth_revision")):
+            raise ValueError("Scoped actor required for provider cache")
+        value = {"prompt_version": PROMPT_VERSION,
+                 "actor": {k: actor[k] for k in ("tenant_id", "id", "role", "auth_revision")},
+                 "request": payload}
+        return hashlib.sha256(json.dumps(value, ensure_ascii=False, sort_keys=True,
+            separators=(",", ":")).encode()).hexdigest()
+
+    def claim(self, key):
+        now = time.time()
+        with closing(sqlite3.connect(self.path, timeout=5, isolation_level=None)) as db:
+            db.execute("BEGIN IMMEDIATE")
+            row = db.execute("SELECT status,body,claimed_at FROM provider_cache WHERE key=?",
+                             (key,)).fetchone()
+            if row and row[0] == "ready":
+                db.commit()
+                try:
+                    return json.loads(row[1]), False
+                except (TypeError, json.JSONDecodeError):
+                    raise ValueError("Cached provider result is corrupt") from None
+            if row and now - row[2] <= 60:
+                db.rollback()
+                raise ConnectionError("Identical provider request already in progress")
+            db.execute("DELETE FROM provider_cache WHERE key=?", (key,))
+            db.execute("INSERT INTO provider_cache VALUES (?,'loading',NULL,?)", (key, now))
+            db.commit()
+            return None, True
+
+    def store(self, key, value):
+        body = json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+        with closing(sqlite3.connect(self.path, timeout=5)) as db, db:
+            updated = db.execute("UPDATE provider_cache SET status='ready',body=? WHERE key=? AND status='loading'",
+                                 (body, key)).rowcount
+            if updated != 1:
+                raise ValueError("Provider cache claim was lost")
+
+    def abort(self, key):
+        with closing(sqlite3.connect(self.path, timeout=5)) as db, db:
+            db.execute("DELETE FROM provider_cache WHERE key=? AND status='loading'", (key,))
+
+
 class OpenAIProvider:
     mode = "openai"
 
-    def __init__(self, *, api_key, model, client=None, ledger=None):
+    def __init__(self, *, api_key, model, client=None, ledger=None, cache=None):
         if not isinstance(api_key, str) or not api_key.strip():
             raise ValueError("A server-side API key is required")
         if not isinstance(model, str) or not model.strip():
@@ -39,6 +94,7 @@ class OpenAIProvider:
             raise ValueError("A durable usage ledger is required for the live transport")
         self._api_key, self.model, self._client = api_key, model, client
         self.ledger = ledger
+        self.cache = cache
 
     def __call__(self, message, context):
         payload = {"model": self.model, "store": False, "instructions": INSTRUCTIONS,
@@ -48,7 +104,19 @@ class OpenAIProvider:
                 "orders": [o for o in context["orders"] if o["status"] == "active"],
                 "procedures": [{k: d[k] for k in ("id", "version", "kind", "action")}
                     for d in context["documents"]], "excerpts": context["retrieved_chunks"]}, ensure_ascii=False)}
-        call_id = self.ledger.reserve(context.get("actor"), self.model, PROMPT_VERSION) if self.ledger else None
+        cache_key = None
+        if self.cache:
+            cache_key = self.cache.key(context.get("actor"), payload)
+            cached, claimed = self.cache.claim(cache_key)
+            if not claimed:
+                return self._validate(cached)
+        call_id = None
+        try:
+            call_id = self.ledger.reserve(context.get("actor"), self.model, PROMPT_VERSION) if self.ledger else None
+        except Exception:
+            if self.cache:
+                self.cache.abort(cache_key)
+            raise
         record_usage = (lambda response: self.ledger.record_usage(call_id, response)) if self.ledger else None
         try:
             # No SDK retries; no redirects with a key. Reservations survive crashes.
@@ -60,9 +128,13 @@ class OpenAIProvider:
         except Exception:
             if self.ledger:
                 self.ledger.finish(call_id, "failed")
+            if self.cache:
+                self.cache.abort(cache_key)
             raise
         if self.ledger:
             self.ledger.finish(call_id, "completed")
+        if self.cache:
+            self.cache.store(cache_key, result)
         return result
 
     def _request(self, client, payload, record_usage=None):
@@ -105,7 +177,9 @@ class OpenAIProvider:
         texts = [p.get("text") for p in content if p.get("type") == "output_text"]
         if len(texts) != 1 or not isinstance(texts[0], str):
             raise ValueError("Expected exactly one structured provider output")
-        result = json.loads(texts[0])
+        return self._validate(json.loads(texts[0]))
+
+    def _validate(self, result):
         if not isinstance(result, dict) or set(result) != set(SCHEMA["required"]):
             raise ValueError("Provider output schema mismatch")
         draft = result["draft_message"]

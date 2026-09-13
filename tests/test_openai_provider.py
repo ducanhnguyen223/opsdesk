@@ -1,9 +1,12 @@
 import json
+import sqlite3
+import tempfile
 import unittest
+from pathlib import Path
 
 import httpx
 
-from openai_provider import ENDPOINT, OpenAIProvider
+from openai_provider import ENDPOINT, ExactCache, OpenAIProvider
 
 
 CONTEXT = {"shipment": {"id": "SHP-1042"}, "orders": [], "documents": [], "retrieved_chunks": []}
@@ -18,6 +21,52 @@ def completed(content=None):
 
 
 class OpenAIContractChecks(unittest.TestCase):
+    def test_exact_cache_persists_and_scopes_actor_and_evidence(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "cache.sqlite3"
+            requests = []
+            def handle(request):
+                requests.append(request)
+                return httpx.Response(200, json=completed())
+            context = {**CONTEXT, "actor": {"tenant_id": "A", "id": "A-operator",
+                "role": "operator", "auth_revision": 1}}
+            with httpx.Client(transport=httpx.MockTransport(handle)) as client:
+                provider = OpenAIProvider(api_key="test", model="model-a", client=client,
+                                          cache=ExactCache(path))
+                self.assertEqual(provider("PRIVATE NOTICE SHP-1042", context), CHOICE)
+                self.assertEqual(provider("PRIVATE NOTICE SHP-1042", context), CHOICE)
+                restarted = OpenAIProvider(api_key="test", model="model-a", client=client,
+                                           cache=ExactCache(path))
+                self.assertEqual(restarted("PRIVATE NOTICE SHP-1042", context), CHOICE)
+                changed_actor = {**context, "actor": {**context["actor"], "auth_revision": 2}}
+                restarted("PRIVATE NOTICE SHP-1042", changed_actor)
+                changed_evidence = {**context, "shipment": {"id": "SHP-1042", "revision": 2}}
+                restarted("PRIVATE NOTICE SHP-1042", changed_evidence)
+            self.assertEqual(len(requests), 3)
+            with sqlite3.connect(path) as db:
+                dump = "\n".join(db.iterdump())
+            self.assertNotIn("PRIVATE NOTICE", dump)
+            self.assertNotIn("test", dump)
+
+    def test_exact_cache_blocks_duplicate_inflight_and_corruption(self):
+        with tempfile.TemporaryDirectory() as directory:
+            cache = ExactCache(Path(directory) / "cache.sqlite3")
+            key = "a" * 64
+            self.assertEqual(cache.claim(key), (None, True))
+            with self.assertRaisesRegex(ConnectionError, "already in progress"):
+                cache.claim(key)
+            with sqlite3.connect(cache.path) as db:
+                db.execute("UPDATE provider_cache SET claimed_at=0 WHERE key=?", (key,))
+                db.commit()
+            self.assertEqual(cache.claim(key), (None, True))
+            cache.store(key, CHOICE)
+            self.assertEqual(cache.claim(key), (CHOICE, False))
+            with sqlite3.connect(cache.path) as db:
+                db.execute("UPDATE provider_cache SET body='not json' WHERE key=?", (key,))
+                db.commit()
+            with self.assertRaisesRegex(ValueError, "corrupt"):
+                cache.claim(key)
+
     def test_official_endpoint_strict_schema_and_no_storage(self):
         requests = []
 

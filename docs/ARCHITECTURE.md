@@ -49,6 +49,11 @@ that exact database and associated SQLite files; never reset the workspace.
 `verify.py` uses temporary databases and cleans up its own HTTP smoke server.
 It must not be used as a claim that retrieval or model quality is production-grade.
 
+An optional exact cache sits before the paid transport. It stores no raw input: the key is a
+digest of the complete structured request plus prompt version and server-derived actor scope.
+Only validated structured output is retained. Authorization/evidence changes produce a miss;
+concurrent identical misses admit one upstream request. The default offline demo has no cache.
+
 Public deployment remains gated on real authentication, HTTPS, safe deployment
 configuration, spending controls and a separately verified live-provider path.
 Do not bypass the local boundary by tunneling or enabling proxy headers.

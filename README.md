@@ -50,7 +50,7 @@ Stop the server with Ctrl-C. Use `--db /path/to/new.sqlite3` for a separate demo
 
 ## What is verified
 
-- 77 Python tests covering workflow, retrieval, provider contracts, usage allowances, workspace,
+- 79 Python tests covering workflow, retrieval, provider contracts, usage allowances, workspace,
   case/draft persistence and PDF extraction. A Node check exercises the unsaved-draft guard.
 - Browser-observed case workflow: filter, inspect, claim, analyze, review, approve,
   resolve and inspect audit history. Draft versions v1/v2 survived reopening the page.
@@ -112,6 +112,11 @@ Stop the server with Ctrl-C. Use `--db /path/to/new.sqlite3` for a separate demo
   The raw report records exact HTTP/status/action/citation/order checks and offline latency.
   Current deterministic baseline: 60/60 cases, zero false authorizations. This is a
   controlled fixture result, NOT live-model quality or a production benchmark.
+- Optional `ExactCache` stores only a SHA-256 request digest and already-validated structured
+  response. Its key covers model, prompt/schema, complete provider input, tenant, actor, role
+  and authorization revision. Changed evidence or permissions miss the cache; an in-flight
+  claim blocks duplicate upstream calls and expires after 60 seconds. The default demo does
+  not enable this cache. Semantic caching remains an unproven experiment, not a feature claim.
 - Provider output cannot choose arbitrary actions or citations. The hostile note
   reaches the fake adapter in tests, but this does not establish LLM prompt-injection robustness.
 - Tests freeze time at the fixture timestamp; the server checks policy validity

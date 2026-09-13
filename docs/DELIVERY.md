@@ -42,7 +42,12 @@ not a reduced substitute for the full plan in `../../../docs/plans/2026-09-10-sa
 - [x] Full `verify.py` rerun after PDF integration: 66 Python tests, JavaScript syntax,
   unsaved-draft check, dependency compatibility and real HTTP demo all pass.
 - [ ] Timeout/retry policy, usage/cost ledger, per-user limits and enforced spend ceiling.
-- [ ] Exact cache and measured semantic-cache experiment with stale/permission isolation checks.
+- [x] Optional persistent exact provider cache: hashed complete request plus model/prompt/schema
+  and scoped actor identity/revision; no raw request storage. Restart reuse, actor/revision and
+  evidence misses, duplicate in-flight blocking and corrupted-entry fail-closed behavior tested.
+  The offline demo leaves it disabled.
+- [ ] Measured semantic-cache experiment with stale/permission isolation checks. Do not enable
+  it by default unless false-hit evaluation demonstrates an acceptable boundary.
 - [ ] Complete web UI using the real backend: identity, analysis, citations, review, tickets/history,
   document management and usage/errors. No hardcoded success responses.
 - [ ] Real authentication/deployment configuration for any public demo; no public demo-login bypass.
@@ -71,6 +76,9 @@ the native file chooser, but Codex safety prevents driving its own app's chooser
 selection remains unverified rather than being claimed as passed. Added the 60-case frozen
 evaluation dataset, executable evaluator, raw per-case results and split/family guards.
 Full verify.py now passes 77 Python tests, JS checks, 60/60 offline eval and HTTP smoke.
+
+Implemented after that run: optional exact provider cache plus two focused tests; provider
+and backend targeted suites pass. GitHub CI is the next full-suite verification for this commit.
 
 Handoff 2026-09-14: authenticated `/api/usage` and the Sử dụng AI view are implemented; scoped summaries
 exclude other actors/tenants and show unknown usage explicitly. 74 Python tests plus
