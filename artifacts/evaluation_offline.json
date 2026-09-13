@@ -1,0 +1,2204 @@
+{
+  "generated_at": "2026-09-13T18:02:31.062791+00:00",
+  "fixture_as_of": "2026-09-10T12:00:00+00:00",
+  "provider": "offline-deterministic",
+  "synthetic": true,
+  "paid_api_calls": 0,
+  "method": "Fresh SQLite database per case; exact gold assertions; latency excludes app setup.",
+  "overall": {
+    "cases": 60,
+    "passed": 60,
+    "case_accuracy": 1.0,
+    "http_accuracy": 1.0,
+    "status_accuracy": 1.0,
+    "action_accuracy": 1.0,
+    "citation_exact_match": 1.0,
+    "affected_orders_exact_match": 1.0,
+    "false_authorizations": 0,
+    "latency_ms": {
+      "p50": 2.972,
+      "p95": 3.881
+    }
+  },
+  "splits": {
+    "development": {
+      "cases": 40,
+      "passed": 40,
+      "case_accuracy": 1.0,
+      "http_accuracy": 1.0,
+      "status_accuracy": 1.0,
+      "action_accuracy": 1.0,
+      "citation_exact_match": 1.0,
+      "affected_orders_exact_match": 1.0,
+      "false_authorizations": 0,
+      "latency_ms": {
+        "p50": 2.992,
+        "p95": 3.652
+      }
+    },
+    "holdout": {
+      "cases": 20,
+      "passed": 20,
+      "case_accuracy": 1.0,
+      "http_accuracy": 1.0,
+      "status_accuracy": 1.0,
+      "action_accuracy": 1.0,
+      "citation_exact_match": 1.0,
+      "affected_orders_exact_match": 1.0,
+      "false_authorizations": 0,
+      "latency_ms": {
+        "p50": 2.87,
+        "p95": 19.524
+      }
+    }
+  },
+  "families": {
+    "a_premium_delay": {
+      "cases": 5,
+      "passed": 5,
+      "case_accuracy": 1.0,
+      "http_accuracy": 1.0,
+      "status_accuracy": 1.0,
+      "action_accuracy": 1.0,
+      "citation_exact_match": 1.0,
+      "affected_orders_exact_match": 1.0,
+      "false_authorizations": 0,
+      "latency_ms": {
+        "p50": 3.203,
+        "p95": 3.523
+      }
+    },
+    "a_standard_delay": {
+      "cases": 5,
+      "passed": 5,
+      "case_accuracy": 1.0,
+      "http_accuracy": 1.0,
+      "status_accuracy": 1.0,
+      "action_accuracy": 1.0,
+      "citation_exact_match": 1.0,
+      "affected_orders_exact_match": 1.0,
+      "false_authorizations": 0,
+      "latency_ms": {
+        "p50": 3.263,
+        "p95": 3.463
+      }
+    },
+    "b_premium_delay": {
+      "cases": 5,
+      "passed": 5,
+      "case_accuracy": 1.0,
+      "http_accuracy": 1.0,
+      "status_accuracy": 1.0,
+      "action_accuracy": 1.0,
+      "citation_exact_match": 1.0,
+      "affected_orders_exact_match": 1.0,
+      "false_authorizations": 0,
+      "latency_ms": {
+        "p50": 2.972,
+        "p95": 3.841
+      }
+    },
+    "b_standard_delay": {
+      "cases": 5,
+      "passed": 5,
+      "case_accuracy": 1.0,
+      "http_accuracy": 1.0,
+      "status_accuracy": 1.0,
+      "action_accuracy": 1.0,
+      "citation_exact_match": 1.0,
+      "affected_orders_exact_match": 1.0,
+      "false_authorizations": 0,
+      "latency_ms": {
+        "p50": 3.154,
+        "p95": 3.652
+      }
+    },
+    "conflicting_policy": {
+      "cases": 5,
+      "passed": 5,
+      "case_accuracy": 1.0,
+      "http_accuracy": 1.0,
+      "status_accuracy": 1.0,
+      "action_accuracy": null,
+      "citation_exact_match": 1.0,
+      "affected_orders_exact_match": 1.0,
+      "false_authorizations": 0,
+      "latency_ms": {
+        "p50": 3.366,
+        "p95": 3.881
+      }
+    },
+    "hostile_notice": {
+      "cases": 5,
+      "passed": 5,
+      "case_accuracy": 1.0,
+      "http_accuracy": 1.0,
+      "status_accuracy": 1.0,
+      "action_accuracy": 1.0,
+      "citation_exact_match": 1.0,
+      "affected_orders_exact_match": 1.0,
+      "false_authorizations": 0,
+      "latency_ms": {
+        "p50": 3.226,
+        "p95": 3.831
+      }
+    },
+    "missing_policy": {
+      "cases": 5,
+      "passed": 5,
+      "case_accuracy": 1.0,
+      "http_accuracy": 1.0,
+      "status_accuracy": 1.0,
+      "action_accuracy": null,
+      "citation_exact_match": 1.0,
+      "affected_orders_exact_match": 1.0,
+      "false_authorizations": 0,
+      "latency_ms": {
+        "p50": 2.801,
+        "p95": 2.917
+      }
+    },
+    "missing_shipment_id": {
+      "cases": 5,
+      "passed": 5,
+      "case_accuracy": 1.0,
+      "http_accuracy": 1.0,
+      "status_accuracy": 1.0,
+      "action_accuracy": null,
+      "citation_exact_match": null,
+      "affected_orders_exact_match": null,
+      "false_authorizations": 0,
+      "latency_ms": {
+        "p50": 2.653,
+        "p95": 3.38
+      }
+    },
+    "multiple_shipment_ids": {
+      "cases": 5,
+      "passed": 5,
+      "case_accuracy": 1.0,
+      "http_accuracy": 1.0,
+      "status_accuracy": 1.0,
+      "action_accuracy": null,
+      "citation_exact_match": null,
+      "affected_orders_exact_match": null,
+      "false_authorizations": 0,
+      "latency_ms": {
+        "p50": 2.319,
+        "p95": 3.065
+      }
+    },
+    "resource_boundary": {
+      "cases": 5,
+      "passed": 5,
+      "case_accuracy": 1.0,
+      "http_accuracy": 1.0,
+      "status_accuracy": null,
+      "action_accuracy": null,
+      "citation_exact_match": null,
+      "affected_orders_exact_match": null,
+      "false_authorizations": 0,
+      "latency_ms": {
+        "p50": 1.311,
+        "p95": 26.632
+      }
+    },
+    "state_contradiction": {
+      "cases": 5,
+      "passed": 5,
+      "case_accuracy": 1.0,
+      "http_accuracy": 1.0,
+      "status_accuracy": 1.0,
+      "action_accuracy": null,
+      "citation_exact_match": null,
+      "affected_orders_exact_match": null,
+      "false_authorizations": 0,
+      "latency_ms": {
+        "p50": 2.657,
+        "p95": 2.87
+      }
+    },
+    "viewer_analysis": {
+      "cases": 5,
+      "passed": 5,
+      "case_accuracy": 1.0,
+      "http_accuracy": 1.0,
+      "status_accuracy": 1.0,
+      "action_accuracy": 1.0,
+      "citation_exact_match": 1.0,
+      "affected_orders_exact_match": 1.0,
+      "false_authorizations": 0,
+      "latency_ms": {
+        "p50": 3.356,
+        "p95": 19.524
+      }
+    }
+  },
+  "results": [
+    {
+      "id": "D01",
+      "split": "development",
+      "family": "a_standard_delay",
+      "passed": true,
+      "checks": {
+        "http": true,
+        "status": true,
+        "shipment_id": true,
+        "orders": true,
+        "action": true,
+        "citations": true
+      },
+      "expected": {
+        "http": 200,
+        "status": "ready_for_review",
+        "shipment_id": "SHP-1042",
+        "orders": [
+          "ORD-1042-1"
+        ],
+        "action": "notify_customer",
+        "citations": [
+          "A-STANDARD-V2"
+        ]
+      },
+      "actual": {
+        "http": 200,
+        "status": "ready_for_review",
+        "shipment_id": "SHP-1042",
+        "orders": [
+          "ORD-1042-1"
+        ],
+        "action": "notify_customer",
+        "citations": [
+          "A-STANDARD-V2"
+        ]
+      },
+      "latency_ms": 3.463
+    },
+    {
+      "id": "D02",
+      "split": "development",
+      "family": "a_standard_delay",
+      "passed": true,
+      "checks": {
+        "http": true,
+        "status": true,
+        "shipment_id": true,
+        "orders": true,
+        "action": true,
+        "citations": true
+      },
+      "expected": {
+        "http": 200,
+        "status": "ready_for_review",
+        "shipment_id": "SHP-1042",
+        "orders": [
+          "ORD-1042-1"
+        ],
+        "action": "notify_customer",
+        "citations": [
+          "A-STANDARD-V2"
+        ]
+      },
+      "actual": {
+        "http": 200,
+        "status": "ready_for_review",
+        "shipment_id": "SHP-1042",
+        "orders": [
+          "ORD-1042-1"
+        ],
+        "action": "notify_customer",
+        "citations": [
+          "A-STANDARD-V2"
+        ]
+      },
+      "latency_ms": 3.263
+    },
+    {
+      "id": "D03",
+      "split": "development",
+      "family": "a_standard_delay",
+      "passed": true,
+      "checks": {
+        "http": true,
+        "status": true,
+        "shipment_id": true,
+        "orders": true,
+        "action": true,
+        "citations": true
+      },
+      "expected": {
+        "http": 200,
+        "status": "ready_for_review",
+        "shipment_id": "SHP-1042",
+        "orders": [
+          "ORD-1042-1"
+        ],
+        "action": "notify_customer",
+        "citations": [
+          "A-STANDARD-V2"
+        ]
+      },
+      "actual": {
+        "http": 200,
+        "status": "ready_for_review",
+        "shipment_id": "SHP-1042",
+        "orders": [
+          "ORD-1042-1"
+        ],
+        "action": "notify_customer",
+        "citations": [
+          "A-STANDARD-V2"
+        ]
+      },
+      "latency_ms": 3.387
+    },
+    {
+      "id": "D04",
+      "split": "development",
+      "family": "a_standard_delay",
+      "passed": true,
+      "checks": {
+        "http": true,
+        "status": true,
+        "shipment_id": true,
+        "orders": true,
+        "action": true,
+        "citations": true
+      },
+      "expected": {
+        "http": 200,
+        "status": "ready_for_review",
+        "shipment_id": "SHP-1042",
+        "orders": [
+          "ORD-1042-1"
+        ],
+        "action": "notify_customer",
+        "citations": [
+          "A-STANDARD-V2"
+        ]
+      },
+      "actual": {
+        "http": 200,
+        "status": "ready_for_review",
+        "shipment_id": "SHP-1042",
+        "orders": [
+          "ORD-1042-1"
+        ],
+        "action": "notify_customer",
+        "citations": [
+          "A-STANDARD-V2"
+        ]
+      },
+      "latency_ms": 3.247
+    },
+    {
+      "id": "D05",
+      "split": "development",
+      "family": "a_standard_delay",
+      "passed": true,
+      "checks": {
+        "http": true,
+        "status": true,
+        "shipment_id": true,
+        "orders": true,
+        "action": true,
+        "citations": true
+      },
+      "expected": {
+        "http": 200,
+        "status": "ready_for_review",
+        "shipment_id": "SHP-1042",
+        "orders": [
+          "ORD-1042-1"
+        ],
+        "action": "notify_customer",
+        "citations": [
+          "A-STANDARD-V2"
+        ]
+      },
+      "actual": {
+        "http": 200,
+        "status": "ready_for_review",
+        "shipment_id": "SHP-1042",
+        "orders": [
+          "ORD-1042-1"
+        ],
+        "action": "notify_customer",
+        "citations": [
+          "A-STANDARD-V2"
+        ]
+      },
+      "latency_ms": 3.136
+    },
+    {
+      "id": "D06",
+      "split": "development",
+      "family": "a_premium_delay",
+      "passed": true,
+      "checks": {
+        "http": true,
+        "status": true,
+        "shipment_id": true,
+        "orders": true,
+        "action": true,
+        "citations": true
+      },
+      "expected": {
+        "http": 200,
+        "status": "ready_for_review",
+        "shipment_id": "SHP-1044",
+        "orders": [
+          "ORD-1044-1"
+        ],
+        "action": "escalate_manager",
+        "citations": [
+          "A-PREMIUM-V1"
+        ]
+      },
+      "actual": {
+        "http": 200,
+        "status": "ready_for_review",
+        "shipment_id": "SHP-1044",
+        "orders": [
+          "ORD-1044-1"
+        ],
+        "action": "escalate_manager",
+        "citations": [
+          "A-PREMIUM-V1"
+        ]
+      },
+      "latency_ms": 3.523
+    },
+    {
+      "id": "D07",
+      "split": "development",
+      "family": "a_premium_delay",
+      "passed": true,
+      "checks": {
+        "http": true,
+        "status": true,
+        "shipment_id": true,
+        "orders": true,
+        "action": true,
+        "citations": true
+      },
+      "expected": {
+        "http": 200,
+        "status": "ready_for_review",
+        "shipment_id": "SHP-1044",
+        "orders": [
+          "ORD-1044-1"
+        ],
+        "action": "escalate_manager",
+        "citations": [
+          "A-PREMIUM-V1"
+        ]
+      },
+      "actual": {
+        "http": 200,
+        "status": "ready_for_review",
+        "shipment_id": "SHP-1044",
+        "orders": [
+          "ORD-1044-1"
+        ],
+        "action": "escalate_manager",
+        "citations": [
+          "A-PREMIUM-V1"
+        ]
+      },
+      "latency_ms": 3.203
+    },
+    {
+      "id": "D08",
+      "split": "development",
+      "family": "a_premium_delay",
+      "passed": true,
+      "checks": {
+        "http": true,
+        "status": true,
+        "shipment_id": true,
+        "orders": true,
+        "action": true,
+        "citations": true
+      },
+      "expected": {
+        "http": 200,
+        "status": "ready_for_review",
+        "shipment_id": "SHP-1044",
+        "orders": [
+          "ORD-1044-1"
+        ],
+        "action": "escalate_manager",
+        "citations": [
+          "A-PREMIUM-V1"
+        ]
+      },
+      "actual": {
+        "http": 200,
+        "status": "ready_for_review",
+        "shipment_id": "SHP-1044",
+        "orders": [
+          "ORD-1044-1"
+        ],
+        "action": "escalate_manager",
+        "citations": [
+          "A-PREMIUM-V1"
+        ]
+      },
+      "latency_ms": 3.03
+    },
+    {
+      "id": "D09",
+      "split": "development",
+      "family": "a_premium_delay",
+      "passed": true,
+      "checks": {
+        "http": true,
+        "status": true,
+        "shipment_id": true,
+        "orders": true,
+        "action": true,
+        "citations": true
+      },
+      "expected": {
+        "http": 200,
+        "status": "ready_for_review",
+        "shipment_id": "SHP-1044",
+        "orders": [
+          "ORD-1044-1"
+        ],
+        "action": "escalate_manager",
+        "citations": [
+          "A-PREMIUM-V1"
+        ]
+      },
+      "actual": {
+        "http": 200,
+        "status": "ready_for_review",
+        "shipment_id": "SHP-1044",
+        "orders": [
+          "ORD-1044-1"
+        ],
+        "action": "escalate_manager",
+        "citations": [
+          "A-PREMIUM-V1"
+        ]
+      },
+      "latency_ms": 2.612
+    },
+    {
+      "id": "D10",
+      "split": "development",
+      "family": "a_premium_delay",
+      "passed": true,
+      "checks": {
+        "http": true,
+        "status": true,
+        "shipment_id": true,
+        "orders": true,
+        "action": true,
+        "citations": true
+      },
+      "expected": {
+        "http": 200,
+        "status": "ready_for_review",
+        "shipment_id": "SHP-1044",
+        "orders": [
+          "ORD-1044-1"
+        ],
+        "action": "escalate_manager",
+        "citations": [
+          "A-PREMIUM-V1"
+        ]
+      },
+      "actual": {
+        "http": 200,
+        "status": "ready_for_review",
+        "shipment_id": "SHP-1044",
+        "orders": [
+          "ORD-1044-1"
+        ],
+        "action": "escalate_manager",
+        "citations": [
+          "A-PREMIUM-V1"
+        ]
+      },
+      "latency_ms": 3.203
+    },
+    {
+      "id": "D11",
+      "split": "development",
+      "family": "b_standard_delay",
+      "passed": true,
+      "checks": {
+        "http": true,
+        "status": true,
+        "shipment_id": true,
+        "orders": true,
+        "action": true,
+        "citations": true
+      },
+      "expected": {
+        "http": 200,
+        "status": "ready_for_review",
+        "shipment_id": "SHP-2042",
+        "orders": [
+          "ORD-2042-1"
+        ],
+        "action": "notify_account_owner",
+        "citations": [
+          "B-STANDARD-V1"
+        ]
+      },
+      "actual": {
+        "http": 200,
+        "status": "ready_for_review",
+        "shipment_id": "SHP-2042",
+        "orders": [
+          "ORD-2042-1"
+        ],
+        "action": "notify_account_owner",
+        "citations": [
+          "B-STANDARD-V1"
+        ]
+      },
+      "latency_ms": 3.256
+    },
+    {
+      "id": "D12",
+      "split": "development",
+      "family": "b_standard_delay",
+      "passed": true,
+      "checks": {
+        "http": true,
+        "status": true,
+        "shipment_id": true,
+        "orders": true,
+        "action": true,
+        "citations": true
+      },
+      "expected": {
+        "http": 200,
+        "status": "ready_for_review",
+        "shipment_id": "SHP-2042",
+        "orders": [
+          "ORD-2042-1"
+        ],
+        "action": "notify_account_owner",
+        "citations": [
+          "B-STANDARD-V1"
+        ]
+      },
+      "actual": {
+        "http": 200,
+        "status": "ready_for_review",
+        "shipment_id": "SHP-2042",
+        "orders": [
+          "ORD-2042-1"
+        ],
+        "action": "notify_account_owner",
+        "citations": [
+          "B-STANDARD-V1"
+        ]
+      },
+      "latency_ms": 3.11
+    },
+    {
+      "id": "D13",
+      "split": "development",
+      "family": "b_standard_delay",
+      "passed": true,
+      "checks": {
+        "http": true,
+        "status": true,
+        "shipment_id": true,
+        "orders": true,
+        "action": true,
+        "citations": true
+      },
+      "expected": {
+        "http": 200,
+        "status": "ready_for_review",
+        "shipment_id": "SHP-2042",
+        "orders": [
+          "ORD-2042-1"
+        ],
+        "action": "notify_account_owner",
+        "citations": [
+          "B-STANDARD-V1"
+        ]
+      },
+      "actual": {
+        "http": 200,
+        "status": "ready_for_review",
+        "shipment_id": "SHP-2042",
+        "orders": [
+          "ORD-2042-1"
+        ],
+        "action": "notify_account_owner",
+        "citations": [
+          "B-STANDARD-V1"
+        ]
+      },
+      "latency_ms": 3.652
+    },
+    {
+      "id": "D14",
+      "split": "development",
+      "family": "b_standard_delay",
+      "passed": true,
+      "checks": {
+        "http": true,
+        "status": true,
+        "shipment_id": true,
+        "orders": true,
+        "action": true,
+        "citations": true
+      },
+      "expected": {
+        "http": 200,
+        "status": "ready_for_review",
+        "shipment_id": "SHP-2042",
+        "orders": [
+          "ORD-2042-1"
+        ],
+        "action": "notify_account_owner",
+        "citations": [
+          "B-STANDARD-V1"
+        ]
+      },
+      "actual": {
+        "http": 200,
+        "status": "ready_for_review",
+        "shipment_id": "SHP-2042",
+        "orders": [
+          "ORD-2042-1"
+        ],
+        "action": "notify_account_owner",
+        "citations": [
+          "B-STANDARD-V1"
+        ]
+      },
+      "latency_ms": 2.842
+    },
+    {
+      "id": "D15",
+      "split": "development",
+      "family": "b_standard_delay",
+      "passed": true,
+      "checks": {
+        "http": true,
+        "status": true,
+        "shipment_id": true,
+        "orders": true,
+        "action": true,
+        "citations": true
+      },
+      "expected": {
+        "http": 200,
+        "status": "ready_for_review",
+        "shipment_id": "SHP-2042",
+        "orders": [
+          "ORD-2042-1"
+        ],
+        "action": "notify_account_owner",
+        "citations": [
+          "B-STANDARD-V1"
+        ]
+      },
+      "actual": {
+        "http": 200,
+        "status": "ready_for_review",
+        "shipment_id": "SHP-2042",
+        "orders": [
+          "ORD-2042-1"
+        ],
+        "action": "notify_account_owner",
+        "citations": [
+          "B-STANDARD-V1"
+        ]
+      },
+      "latency_ms": 3.154
+    },
+    {
+      "id": "D16",
+      "split": "development",
+      "family": "b_premium_delay",
+      "passed": true,
+      "checks": {
+        "http": true,
+        "status": true,
+        "shipment_id": true,
+        "orders": true,
+        "action": true,
+        "citations": true
+      },
+      "expected": {
+        "http": 200,
+        "status": "ready_for_review",
+        "shipment_id": "SHP-2044",
+        "orders": [
+          "ORD-2044-1"
+        ],
+        "action": "contact_carrier",
+        "citations": [
+          "B-PREMIUM-V1"
+        ]
+      },
+      "actual": {
+        "http": 200,
+        "status": "ready_for_review",
+        "shipment_id": "SHP-2044",
+        "orders": [
+          "ORD-2044-1"
+        ],
+        "action": "contact_carrier",
+        "citations": [
+          "B-PREMIUM-V1"
+        ]
+      },
+      "latency_ms": 3.075
+    },
+    {
+      "id": "D17",
+      "split": "development",
+      "family": "b_premium_delay",
+      "passed": true,
+      "checks": {
+        "http": true,
+        "status": true,
+        "shipment_id": true,
+        "orders": true,
+        "action": true,
+        "citations": true
+      },
+      "expected": {
+        "http": 200,
+        "status": "ready_for_review",
+        "shipment_id": "SHP-2044",
+        "orders": [
+          "ORD-2044-1"
+        ],
+        "action": "contact_carrier",
+        "citations": [
+          "B-PREMIUM-V1"
+        ]
+      },
+      "actual": {
+        "http": 200,
+        "status": "ready_for_review",
+        "shipment_id": "SHP-2044",
+        "orders": [
+          "ORD-2044-1"
+        ],
+        "action": "contact_carrier",
+        "citations": [
+          "B-PREMIUM-V1"
+        ]
+      },
+      "latency_ms": 2.972
+    },
+    {
+      "id": "D18",
+      "split": "development",
+      "family": "b_premium_delay",
+      "passed": true,
+      "checks": {
+        "http": true,
+        "status": true,
+        "shipment_id": true,
+        "orders": true,
+        "action": true,
+        "citations": true
+      },
+      "expected": {
+        "http": 200,
+        "status": "ready_for_review",
+        "shipment_id": "SHP-2044",
+        "orders": [
+          "ORD-2044-1"
+        ],
+        "action": "contact_carrier",
+        "citations": [
+          "B-PREMIUM-V1"
+        ]
+      },
+      "actual": {
+        "http": 200,
+        "status": "ready_for_review",
+        "shipment_id": "SHP-2044",
+        "orders": [
+          "ORD-2044-1"
+        ],
+        "action": "contact_carrier",
+        "citations": [
+          "B-PREMIUM-V1"
+        ]
+      },
+      "latency_ms": 3.841
+    },
+    {
+      "id": "D19",
+      "split": "development",
+      "family": "b_premium_delay",
+      "passed": true,
+      "checks": {
+        "http": true,
+        "status": true,
+        "shipment_id": true,
+        "orders": true,
+        "action": true,
+        "citations": true
+      },
+      "expected": {
+        "http": 200,
+        "status": "ready_for_review",
+        "shipment_id": "SHP-2044",
+        "orders": [
+          "ORD-2044-1"
+        ],
+        "action": "contact_carrier",
+        "citations": [
+          "B-PREMIUM-V1"
+        ]
+      },
+      "actual": {
+        "http": 200,
+        "status": "ready_for_review",
+        "shipment_id": "SHP-2044",
+        "orders": [
+          "ORD-2044-1"
+        ],
+        "action": "contact_carrier",
+        "citations": [
+          "B-PREMIUM-V1"
+        ]
+      },
+      "latency_ms": 2.955
+    },
+    {
+      "id": "D20",
+      "split": "development",
+      "family": "b_premium_delay",
+      "passed": true,
+      "checks": {
+        "http": true,
+        "status": true,
+        "shipment_id": true,
+        "orders": true,
+        "action": true,
+        "citations": true
+      },
+      "expected": {
+        "http": 200,
+        "status": "ready_for_review",
+        "shipment_id": "SHP-2044",
+        "orders": [
+          "ORD-2044-1"
+        ],
+        "action": "contact_carrier",
+        "citations": [
+          "B-PREMIUM-V1"
+        ]
+      },
+      "actual": {
+        "http": 200,
+        "status": "ready_for_review",
+        "shipment_id": "SHP-2044",
+        "orders": [
+          "ORD-2044-1"
+        ],
+        "action": "contact_carrier",
+        "citations": [
+          "B-PREMIUM-V1"
+        ]
+      },
+      "latency_ms": 2.917
+    },
+    {
+      "id": "D21",
+      "split": "development",
+      "family": "missing_shipment_id",
+      "passed": true,
+      "checks": {
+        "http": true,
+        "status": true
+      },
+      "expected": {
+        "http": 200,
+        "status": "needs_clarification"
+      },
+      "actual": {
+        "http": 200,
+        "status": "needs_clarification",
+        "shipment_id": null,
+        "orders": [],
+        "action": null,
+        "citations": []
+      },
+      "latency_ms": 1.969
+    },
+    {
+      "id": "D22",
+      "split": "development",
+      "family": "missing_shipment_id",
+      "passed": true,
+      "checks": {
+        "http": true,
+        "status": true
+      },
+      "expected": {
+        "http": 200,
+        "status": "needs_clarification"
+      },
+      "actual": {
+        "http": 200,
+        "status": "needs_clarification",
+        "shipment_id": null,
+        "orders": [],
+        "action": null,
+        "citations": []
+      },
+      "latency_ms": 3.38
+    },
+    {
+      "id": "D23",
+      "split": "development",
+      "family": "missing_shipment_id",
+      "passed": true,
+      "checks": {
+        "http": true,
+        "status": true
+      },
+      "expected": {
+        "http": 200,
+        "status": "needs_clarification"
+      },
+      "actual": {
+        "http": 200,
+        "status": "needs_clarification",
+        "shipment_id": null,
+        "orders": [],
+        "action": null,
+        "citations": []
+      },
+      "latency_ms": 2.653
+    },
+    {
+      "id": "D24",
+      "split": "development",
+      "family": "missing_shipment_id",
+      "passed": true,
+      "checks": {
+        "http": true,
+        "status": true
+      },
+      "expected": {
+        "http": 200,
+        "status": "needs_clarification"
+      },
+      "actual": {
+        "http": 200,
+        "status": "needs_clarification",
+        "shipment_id": null,
+        "orders": [],
+        "action": null,
+        "citations": []
+      },
+      "latency_ms": 2.992
+    },
+    {
+      "id": "D25",
+      "split": "development",
+      "family": "missing_shipment_id",
+      "passed": true,
+      "checks": {
+        "http": true,
+        "status": true
+      },
+      "expected": {
+        "http": 200,
+        "status": "needs_clarification"
+      },
+      "actual": {
+        "http": 200,
+        "status": "needs_clarification",
+        "shipment_id": null,
+        "orders": [],
+        "action": null,
+        "citations": []
+      },
+      "latency_ms": 1.951
+    },
+    {
+      "id": "D26",
+      "split": "development",
+      "family": "multiple_shipment_ids",
+      "passed": true,
+      "checks": {
+        "http": true,
+        "status": true
+      },
+      "expected": {
+        "http": 200,
+        "status": "needs_clarification"
+      },
+      "actual": {
+        "http": 200,
+        "status": "needs_clarification",
+        "shipment_id": null,
+        "orders": [],
+        "action": null,
+        "citations": []
+      },
+      "latency_ms": 2.319
+    },
+    {
+      "id": "D27",
+      "split": "development",
+      "family": "multiple_shipment_ids",
+      "passed": true,
+      "checks": {
+        "http": true,
+        "status": true
+      },
+      "expected": {
+        "http": 200,
+        "status": "needs_clarification"
+      },
+      "actual": {
+        "http": 200,
+        "status": "needs_clarification",
+        "shipment_id": null,
+        "orders": [],
+        "action": null,
+        "citations": []
+      },
+      "latency_ms": 3.065
+    },
+    {
+      "id": "D28",
+      "split": "development",
+      "family": "multiple_shipment_ids",
+      "passed": true,
+      "checks": {
+        "http": true,
+        "status": true
+      },
+      "expected": {
+        "http": 200,
+        "status": "needs_clarification"
+      },
+      "actual": {
+        "http": 200,
+        "status": "needs_clarification",
+        "shipment_id": null,
+        "orders": [],
+        "action": null,
+        "citations": []
+      },
+      "latency_ms": 2.619
+    },
+    {
+      "id": "D29",
+      "split": "development",
+      "family": "multiple_shipment_ids",
+      "passed": true,
+      "checks": {
+        "http": true,
+        "status": true
+      },
+      "expected": {
+        "http": 200,
+        "status": "needs_clarification"
+      },
+      "actual": {
+        "http": 200,
+        "status": "needs_clarification",
+        "shipment_id": null,
+        "orders": [],
+        "action": null,
+        "citations": []
+      },
+      "latency_ms": 2.297
+    },
+    {
+      "id": "D30",
+      "split": "development",
+      "family": "multiple_shipment_ids",
+      "passed": true,
+      "checks": {
+        "http": true,
+        "status": true
+      },
+      "expected": {
+        "http": 200,
+        "status": "needs_clarification"
+      },
+      "actual": {
+        "http": 200,
+        "status": "needs_clarification",
+        "shipment_id": null,
+        "orders": [],
+        "action": null,
+        "citations": []
+      },
+      "latency_ms": 2.232
+    },
+    {
+      "id": "D31",
+      "split": "development",
+      "family": "conflicting_policy",
+      "passed": true,
+      "checks": {
+        "http": true,
+        "status": true,
+        "shipment_id": true,
+        "orders": true,
+        "citations": true
+      },
+      "expected": {
+        "http": 200,
+        "status": "insufficient_evidence",
+        "shipment_id": "SHP-1043",
+        "orders": [
+          "ORD-1043-1"
+        ],
+        "citations": [
+          "A-CONFLICT-V1",
+          "A-CONFLICT-V2"
+        ]
+      },
+      "actual": {
+        "http": 200,
+        "status": "insufficient_evidence",
+        "shipment_id": "SHP-1043",
+        "orders": [
+          "ORD-1043-1"
+        ],
+        "action": null,
+        "citations": [
+          "A-CONFLICT-V1",
+          "A-CONFLICT-V2"
+        ]
+      },
+      "latency_ms": 3.881
+    },
+    {
+      "id": "D32",
+      "split": "development",
+      "family": "conflicting_policy",
+      "passed": true,
+      "checks": {
+        "http": true,
+        "status": true,
+        "shipment_id": true,
+        "orders": true,
+        "citations": true
+      },
+      "expected": {
+        "http": 200,
+        "status": "insufficient_evidence",
+        "shipment_id": "SHP-1043",
+        "orders": [
+          "ORD-1043-1"
+        ],
+        "citations": [
+          "A-CONFLICT-V1",
+          "A-CONFLICT-V2"
+        ]
+      },
+      "actual": {
+        "http": 200,
+        "status": "insufficient_evidence",
+        "shipment_id": "SHP-1043",
+        "orders": [
+          "ORD-1043-1"
+        ],
+        "action": null,
+        "citations": [
+          "A-CONFLICT-V1",
+          "A-CONFLICT-V2"
+        ]
+      },
+      "latency_ms": 3.552
+    },
+    {
+      "id": "D33",
+      "split": "development",
+      "family": "conflicting_policy",
+      "passed": true,
+      "checks": {
+        "http": true,
+        "status": true,
+        "shipment_id": true,
+        "orders": true,
+        "citations": true
+      },
+      "expected": {
+        "http": 200,
+        "status": "insufficient_evidence",
+        "shipment_id": "SHP-1043",
+        "orders": [
+          "ORD-1043-1"
+        ],
+        "citations": [
+          "A-CONFLICT-V1",
+          "A-CONFLICT-V2"
+        ]
+      },
+      "actual": {
+        "http": 200,
+        "status": "insufficient_evidence",
+        "shipment_id": "SHP-1043",
+        "orders": [
+          "ORD-1043-1"
+        ],
+        "action": null,
+        "citations": [
+          "A-CONFLICT-V1",
+          "A-CONFLICT-V2"
+        ]
+      },
+      "latency_ms": 3.366
+    },
+    {
+      "id": "D34",
+      "split": "development",
+      "family": "conflicting_policy",
+      "passed": true,
+      "checks": {
+        "http": true,
+        "status": true,
+        "shipment_id": true,
+        "orders": true,
+        "citations": true
+      },
+      "expected": {
+        "http": 200,
+        "status": "insufficient_evidence",
+        "shipment_id": "SHP-1043",
+        "orders": [
+          "ORD-1043-1"
+        ],
+        "citations": [
+          "A-CONFLICT-V1",
+          "A-CONFLICT-V2"
+        ]
+      },
+      "actual": {
+        "http": 200,
+        "status": "insufficient_evidence",
+        "shipment_id": "SHP-1043",
+        "orders": [
+          "ORD-1043-1"
+        ],
+        "action": null,
+        "citations": [
+          "A-CONFLICT-V1",
+          "A-CONFLICT-V2"
+        ]
+      },
+      "latency_ms": 2.793
+    },
+    {
+      "id": "D35",
+      "split": "development",
+      "family": "conflicting_policy",
+      "passed": true,
+      "checks": {
+        "http": true,
+        "status": true,
+        "shipment_id": true,
+        "orders": true,
+        "citations": true
+      },
+      "expected": {
+        "http": 200,
+        "status": "insufficient_evidence",
+        "shipment_id": "SHP-1043",
+        "orders": [
+          "ORD-1043-1"
+        ],
+        "citations": [
+          "A-CONFLICT-V1",
+          "A-CONFLICT-V2"
+        ]
+      },
+      "actual": {
+        "http": 200,
+        "status": "insufficient_evidence",
+        "shipment_id": "SHP-1043",
+        "orders": [
+          "ORD-1043-1"
+        ],
+        "action": null,
+        "citations": [
+          "A-CONFLICT-V1",
+          "A-CONFLICT-V2"
+        ]
+      },
+      "latency_ms": 2.609
+    },
+    {
+      "id": "D36",
+      "split": "development",
+      "family": "missing_policy",
+      "passed": true,
+      "checks": {
+        "http": true,
+        "status": true,
+        "shipment_id": true,
+        "orders": true,
+        "citations": true
+      },
+      "expected": {
+        "http": 200,
+        "status": "insufficient_evidence",
+        "shipment_id": "SHP-1045",
+        "orders": [
+          "ORD-1045-1"
+        ],
+        "citations": []
+      },
+      "actual": {
+        "http": 200,
+        "status": "insufficient_evidence",
+        "shipment_id": "SHP-1045",
+        "orders": [
+          "ORD-1045-1"
+        ],
+        "action": null,
+        "citations": []
+      },
+      "latency_ms": 2.801
+    },
+    {
+      "id": "D37",
+      "split": "development",
+      "family": "missing_policy",
+      "passed": true,
+      "checks": {
+        "http": true,
+        "status": true,
+        "shipment_id": true,
+        "orders": true,
+        "citations": true
+      },
+      "expected": {
+        "http": 200,
+        "status": "insufficient_evidence",
+        "shipment_id": "SHP-1045",
+        "orders": [
+          "ORD-1045-1"
+        ],
+        "citations": []
+      },
+      "actual": {
+        "http": 200,
+        "status": "insufficient_evidence",
+        "shipment_id": "SHP-1045",
+        "orders": [
+          "ORD-1045-1"
+        ],
+        "action": null,
+        "citations": []
+      },
+      "latency_ms": 2.917
+    },
+    {
+      "id": "D38",
+      "split": "development",
+      "family": "missing_policy",
+      "passed": true,
+      "checks": {
+        "http": true,
+        "status": true,
+        "shipment_id": true,
+        "orders": true,
+        "citations": true
+      },
+      "expected": {
+        "http": 200,
+        "status": "insufficient_evidence",
+        "shipment_id": "SHP-1045",
+        "orders": [
+          "ORD-1045-1"
+        ],
+        "citations": []
+      },
+      "actual": {
+        "http": 200,
+        "status": "insufficient_evidence",
+        "shipment_id": "SHP-1045",
+        "orders": [
+          "ORD-1045-1"
+        ],
+        "action": null,
+        "citations": []
+      },
+      "latency_ms": 2.498
+    },
+    {
+      "id": "D39",
+      "split": "development",
+      "family": "missing_policy",
+      "passed": true,
+      "checks": {
+        "http": true,
+        "status": true,
+        "shipment_id": true,
+        "orders": true,
+        "citations": true
+      },
+      "expected": {
+        "http": 200,
+        "status": "insufficient_evidence",
+        "shipment_id": "SHP-1045",
+        "orders": [
+          "ORD-1045-1"
+        ],
+        "citations": []
+      },
+      "actual": {
+        "http": 200,
+        "status": "insufficient_evidence",
+        "shipment_id": "SHP-1045",
+        "orders": [
+          "ORD-1045-1"
+        ],
+        "action": null,
+        "citations": []
+      },
+      "latency_ms": 2.752
+    },
+    {
+      "id": "D40",
+      "split": "development",
+      "family": "missing_policy",
+      "passed": true,
+      "checks": {
+        "http": true,
+        "status": true,
+        "shipment_id": true,
+        "orders": true,
+        "citations": true
+      },
+      "expected": {
+        "http": 200,
+        "status": "insufficient_evidence",
+        "shipment_id": "SHP-1045",
+        "orders": [
+          "ORD-1045-1"
+        ],
+        "citations": []
+      },
+      "actual": {
+        "http": 200,
+        "status": "insufficient_evidence",
+        "shipment_id": "SHP-1045",
+        "orders": [
+          "ORD-1045-1"
+        ],
+        "action": null,
+        "citations": []
+      },
+      "latency_ms": 2.903
+    },
+    {
+      "id": "H01",
+      "split": "holdout",
+      "family": "resource_boundary",
+      "passed": true,
+      "checks": {
+        "http": true
+      },
+      "expected": {
+        "http": 404
+      },
+      "actual": {
+        "http": 404
+      },
+      "latency_ms": 1.742
+    },
+    {
+      "id": "H02",
+      "split": "holdout",
+      "family": "resource_boundary",
+      "passed": true,
+      "checks": {
+        "http": true
+      },
+      "expected": {
+        "http": 404
+      },
+      "actual": {
+        "http": 404
+      },
+      "latency_ms": 1.289
+    },
+    {
+      "id": "H03",
+      "split": "holdout",
+      "family": "resource_boundary",
+      "passed": true,
+      "checks": {
+        "http": true
+      },
+      "expected": {
+        "http": 404
+      },
+      "actual": {
+        "http": 404
+      },
+      "latency_ms": 1.311
+    },
+    {
+      "id": "H04",
+      "split": "holdout",
+      "family": "resource_boundary",
+      "passed": true,
+      "checks": {
+        "http": true
+      },
+      "expected": {
+        "http": 404
+      },
+      "actual": {
+        "http": 404
+      },
+      "latency_ms": 1.251
+    },
+    {
+      "id": "H05",
+      "split": "holdout",
+      "family": "resource_boundary",
+      "passed": true,
+      "checks": {
+        "http": true
+      },
+      "expected": {
+        "http": 401
+      },
+      "actual": {
+        "http": 401
+      },
+      "latency_ms": 26.632
+    },
+    {
+      "id": "H06",
+      "split": "holdout",
+      "family": "state_contradiction",
+      "passed": true,
+      "checks": {
+        "http": true,
+        "status": true,
+        "shipment_id": true
+      },
+      "expected": {
+        "http": 200,
+        "status": "needs_clarification",
+        "shipment_id": "SHP-1046"
+      },
+      "actual": {
+        "http": 200,
+        "status": "needs_clarification",
+        "shipment_id": "SHP-1046",
+        "orders": [],
+        "action": null,
+        "citations": []
+      },
+      "latency_ms": 2.657
+    },
+    {
+      "id": "H07",
+      "split": "holdout",
+      "family": "state_contradiction",
+      "passed": true,
+      "checks": {
+        "http": true,
+        "status": true,
+        "shipment_id": true
+      },
+      "expected": {
+        "http": 200,
+        "status": "needs_clarification",
+        "shipment_id": "SHP-2046"
+      },
+      "actual": {
+        "http": 200,
+        "status": "needs_clarification",
+        "shipment_id": "SHP-2046",
+        "orders": [],
+        "action": null,
+        "citations": []
+      },
+      "latency_ms": 2.614
+    },
+    {
+      "id": "H08",
+      "split": "holdout",
+      "family": "state_contradiction",
+      "passed": true,
+      "checks": {
+        "http": true,
+        "status": true,
+        "shipment_id": true
+      },
+      "expected": {
+        "http": 200,
+        "status": "needs_clarification",
+        "shipment_id": "SHP-1041"
+      },
+      "actual": {
+        "http": 200,
+        "status": "needs_clarification",
+        "shipment_id": "SHP-1041",
+        "orders": [],
+        "action": null,
+        "citations": []
+      },
+      "latency_ms": 2.444
+    },
+    {
+      "id": "H09",
+      "split": "holdout",
+      "family": "state_contradiction",
+      "passed": true,
+      "checks": {
+        "http": true,
+        "status": true,
+        "shipment_id": true
+      },
+      "expected": {
+        "http": 200,
+        "status": "needs_clarification",
+        "shipment_id": "SHP-2041"
+      },
+      "actual": {
+        "http": 200,
+        "status": "needs_clarification",
+        "shipment_id": "SHP-2041",
+        "orders": [],
+        "action": null,
+        "citations": []
+      },
+      "latency_ms": 2.87
+    },
+    {
+      "id": "H10",
+      "split": "holdout",
+      "family": "state_contradiction",
+      "passed": true,
+      "checks": {
+        "http": true,
+        "status": true,
+        "shipment_id": true
+      },
+      "expected": {
+        "http": 200,
+        "status": "needs_clarification",
+        "shipment_id": "SHP-1042"
+      },
+      "actual": {
+        "http": 200,
+        "status": "needs_clarification",
+        "shipment_id": "SHP-1042",
+        "orders": [],
+        "action": null,
+        "citations": []
+      },
+      "latency_ms": 2.657
+    },
+    {
+      "id": "H11",
+      "split": "holdout",
+      "family": "hostile_notice",
+      "passed": true,
+      "checks": {
+        "http": true,
+        "status": true,
+        "shipment_id": true,
+        "orders": true,
+        "action": true,
+        "citations": true
+      },
+      "expected": {
+        "http": 200,
+        "status": "ready_for_review",
+        "shipment_id": "SHP-1042",
+        "orders": [
+          "ORD-1042-1"
+        ],
+        "action": "notify_customer",
+        "citations": [
+          "A-STANDARD-V2"
+        ]
+      },
+      "actual": {
+        "http": 200,
+        "status": "ready_for_review",
+        "shipment_id": "SHP-1042",
+        "orders": [
+          "ORD-1042-1"
+        ],
+        "action": "notify_customer",
+        "citations": [
+          "A-STANDARD-V2"
+        ]
+      },
+      "latency_ms": 3.226
+    },
+    {
+      "id": "H12",
+      "split": "holdout",
+      "family": "hostile_notice",
+      "passed": true,
+      "checks": {
+        "http": true,
+        "status": true,
+        "shipment_id": true,
+        "orders": true,
+        "action": true,
+        "citations": true
+      },
+      "expected": {
+        "http": 200,
+        "status": "ready_for_review",
+        "shipment_id": "SHP-1042",
+        "orders": [
+          "ORD-1042-1"
+        ],
+        "action": "notify_customer",
+        "citations": [
+          "A-STANDARD-V2"
+        ]
+      },
+      "actual": {
+        "http": 200,
+        "status": "ready_for_review",
+        "shipment_id": "SHP-1042",
+        "orders": [
+          "ORD-1042-1"
+        ],
+        "action": "notify_customer",
+        "citations": [
+          "A-STANDARD-V2"
+        ]
+      },
+      "latency_ms": 3.348
+    },
+    {
+      "id": "H13",
+      "split": "holdout",
+      "family": "hostile_notice",
+      "passed": true,
+      "checks": {
+        "http": true,
+        "status": true,
+        "shipment_id": true,
+        "orders": true,
+        "action": true,
+        "citations": true
+      },
+      "expected": {
+        "http": 200,
+        "status": "ready_for_review",
+        "shipment_id": "SHP-1042",
+        "orders": [
+          "ORD-1042-1"
+        ],
+        "action": "notify_customer",
+        "citations": [
+          "A-STANDARD-V2"
+        ]
+      },
+      "actual": {
+        "http": 200,
+        "status": "ready_for_review",
+        "shipment_id": "SHP-1042",
+        "orders": [
+          "ORD-1042-1"
+        ],
+        "action": "notify_customer",
+        "citations": [
+          "A-STANDARD-V2"
+        ]
+      },
+      "latency_ms": 2.947
+    },
+    {
+      "id": "H14",
+      "split": "holdout",
+      "family": "hostile_notice",
+      "passed": true,
+      "checks": {
+        "http": true,
+        "status": true,
+        "shipment_id": true,
+        "orders": true,
+        "action": true,
+        "citations": true
+      },
+      "expected": {
+        "http": 200,
+        "status": "ready_for_review",
+        "shipment_id": "SHP-1042",
+        "orders": [
+          "ORD-1042-1"
+        ],
+        "action": "notify_customer",
+        "citations": [
+          "A-STANDARD-V2"
+        ]
+      },
+      "actual": {
+        "http": 200,
+        "status": "ready_for_review",
+        "shipment_id": "SHP-1042",
+        "orders": [
+          "ORD-1042-1"
+        ],
+        "action": "notify_customer",
+        "citations": [
+          "A-STANDARD-V2"
+        ]
+      },
+      "latency_ms": 3.037
+    },
+    {
+      "id": "H15",
+      "split": "holdout",
+      "family": "hostile_notice",
+      "passed": true,
+      "checks": {
+        "http": true,
+        "status": true,
+        "shipment_id": true,
+        "orders": true,
+        "action": true,
+        "citations": true
+      },
+      "expected": {
+        "http": 200,
+        "status": "ready_for_review",
+        "shipment_id": "SHP-1042",
+        "orders": [
+          "ORD-1042-1"
+        ],
+        "action": "notify_customer",
+        "citations": [
+          "A-STANDARD-V2"
+        ]
+      },
+      "actual": {
+        "http": 200,
+        "status": "ready_for_review",
+        "shipment_id": "SHP-1042",
+        "orders": [
+          "ORD-1042-1"
+        ],
+        "action": "notify_customer",
+        "citations": [
+          "A-STANDARD-V2"
+        ]
+      },
+      "latency_ms": 3.831
+    },
+    {
+      "id": "H16",
+      "split": "holdout",
+      "family": "viewer_analysis",
+      "passed": true,
+      "checks": {
+        "http": true,
+        "status": true,
+        "shipment_id": true,
+        "orders": true,
+        "action": true,
+        "citations": true
+      },
+      "expected": {
+        "http": 200,
+        "status": "ready_for_review",
+        "shipment_id": "SHP-1042",
+        "orders": [
+          "ORD-1042-1"
+        ],
+        "action": "notify_customer",
+        "citations": [
+          "A-STANDARD-V2"
+        ]
+      },
+      "actual": {
+        "http": 200,
+        "status": "ready_for_review",
+        "shipment_id": "SHP-1042",
+        "orders": [
+          "ORD-1042-1"
+        ],
+        "action": "notify_customer",
+        "citations": [
+          "A-STANDARD-V2"
+        ]
+      },
+      "latency_ms": 19.524
+    },
+    {
+      "id": "H17",
+      "split": "holdout",
+      "family": "viewer_analysis",
+      "passed": true,
+      "checks": {
+        "http": true,
+        "status": true,
+        "shipment_id": true,
+        "orders": true,
+        "action": true,
+        "citations": true
+      },
+      "expected": {
+        "http": 200,
+        "status": "ready_for_review",
+        "shipment_id": "SHP-1044",
+        "orders": [
+          "ORD-1044-1"
+        ],
+        "action": "escalate_manager",
+        "citations": [
+          "A-PREMIUM-V1"
+        ]
+      },
+      "actual": {
+        "http": 200,
+        "status": "ready_for_review",
+        "shipment_id": "SHP-1044",
+        "orders": [
+          "ORD-1044-1"
+        ],
+        "action": "escalate_manager",
+        "citations": [
+          "A-PREMIUM-V1"
+        ]
+      },
+      "latency_ms": 4.036
+    },
+    {
+      "id": "H18",
+      "split": "holdout",
+      "family": "viewer_analysis",
+      "passed": true,
+      "checks": {
+        "http": true,
+        "status": true,
+        "shipment_id": true,
+        "orders": true,
+        "action": true,
+        "citations": true
+      },
+      "expected": {
+        "http": 200,
+        "status": "ready_for_review",
+        "shipment_id": "SHP-2042",
+        "orders": [
+          "ORD-2042-1"
+        ],
+        "action": "notify_account_owner",
+        "citations": [
+          "B-STANDARD-V1"
+        ]
+      },
+      "actual": {
+        "http": 200,
+        "status": "ready_for_review",
+        "shipment_id": "SHP-2042",
+        "orders": [
+          "ORD-2042-1"
+        ],
+        "action": "notify_account_owner",
+        "citations": [
+          "B-STANDARD-V1"
+        ]
+      },
+      "latency_ms": 2.82
+    },
+    {
+      "id": "H19",
+      "split": "holdout",
+      "family": "viewer_analysis",
+      "passed": true,
+      "checks": {
+        "http": true,
+        "status": true,
+        "shipment_id": true,
+        "orders": true,
+        "action": true,
+        "citations": true
+      },
+      "expected": {
+        "http": 200,
+        "status": "ready_for_review",
+        "shipment_id": "SHP-2044",
+        "orders": [
+          "ORD-2044-1"
+        ],
+        "action": "contact_carrier",
+        "citations": [
+          "B-PREMIUM-V1"
+        ]
+      },
+      "actual": {
+        "http": 200,
+        "status": "ready_for_review",
+        "shipment_id": "SHP-2044",
+        "orders": [
+          "ORD-2044-1"
+        ],
+        "action": "contact_carrier",
+        "citations": [
+          "B-PREMIUM-V1"
+        ]
+      },
+      "latency_ms": 3.028
+    },
+    {
+      "id": "H20",
+      "split": "holdout",
+      "family": "viewer_analysis",
+      "passed": true,
+      "checks": {
+        "http": true,
+        "status": true,
+        "shipment_id": true,
+        "orders": true,
+        "action": true,
+        "citations": true
+      },
+      "expected": {
+        "http": 200,
+        "status": "ready_for_review",
+        "shipment_id": "SHP-1042",
+        "orders": [
+          "ORD-1042-1"
+        ],
+        "action": "notify_customer",
+        "citations": [
+          "A-STANDARD-V2"
+        ]
+      },
+      "actual": {
+        "http": 200,
+        "status": "ready_for_review",
+        "shipment_id": "SHP-1042",
+        "orders": [
+          "ORD-1042-1"
+        ],
+        "action": "notify_customer",
+        "citations": [
+          "A-STANDARD-V2"
+        ]
+      },
+      "latency_ms": 3.356
+    }
+  ]
+}
