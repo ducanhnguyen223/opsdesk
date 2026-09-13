@@ -90,8 +90,8 @@ class OpenAIProvider:
             raise ValueError("A server-side API key is required")
         if not isinstance(model, str) or not model.strip():
             raise ValueError("Choose an explicit model before enabling paid calls")
-        if client is None and ledger is None:
-            raise ValueError("A durable usage ledger is required for the live transport")
+        if client is None and (ledger is None or not ledger.cost_enabled):
+            raise ValueError("A cost-aware durable usage ledger is required for the live transport")
         self._api_key, self.model, self._client = api_key, model, client
         self.ledger = ledger
         self.cache = cache
@@ -112,7 +112,11 @@ class OpenAIProvider:
                 return self._validate(cached)
         call_id = None
         try:
-            call_id = self.ledger.reserve(context.get("actor"), self.model, PROMPT_VERSION) if self.ledger else None
+            request_bytes = len(json.dumps(payload, ensure_ascii=False,
+                separators=(",", ":")).encode())
+            call_id = self.ledger.reserve(context.get("actor"), self.model, PROMPT_VERSION,
+                input_upper_tokens=request_bytes + 4096,
+                output_upper_tokens=payload["max_output_tokens"]) if self.ledger else None
         except Exception:
             if self.cache:
                 self.cache.abort(cache_key)

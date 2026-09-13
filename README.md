@@ -50,7 +50,7 @@ Stop the server with Ctrl-C. Use `--db /path/to/new.sqlite3` for a separate demo
 
 ## What is verified
 
-- 79 Python tests covering workflow, retrieval, provider contracts, usage allowances, workspace,
+- 83 Python tests covering workflow, retrieval, provider contracts, usage/cost allowances, workspace,
   case/draft persistence and PDF extraction. A Node check exercises the unsaved-draft guard.
 - Browser-observed case workflow: filter, inspect, claim, analyze, review, approve,
   resolve and inspect audit history. Draft versions v1/v2 survived reopening the page.
@@ -103,8 +103,13 @@ Stop the server with Ctrl-C. Use `--db /path/to/new.sqlite3` for a separate demo
   restarts. Failed and interrupted attempts still consume a slot. Reported input/output
   token counts are recorded even when generated output is rejected; unavailable usage
   stays unknown. No prompt, completion text or key is stored in this ledger.
-  These are request caps, NOT a USD spending ceiling. Pricing/budget enforcement
-  remains pending; live CLI mode is still disabled. An authenticated
+  By default these are request caps, not a USD spending ceiling. Optional pricing configuration
+  reserves a conservative upper cost before network access using an explicit
+  configured USD budget and input/output rates. Integer nano-USD accounting avoids float
+  drift; reported usage releases only the verified difference and missing usage retains the
+  reservation. The live transport refuses to start without this cost-aware ledger. Rates are
+  not hard-coded because the model has not been selected. This app-side ceiling is not the
+  provider's billing limit; configure a project limit separately. Live CLI mode is still disabled. An authenticated
   usage endpoint and UI show only the current actor's records; offline has no fabricated counts.
   The offline view has API tests and browser validation.
 - `evaluate.py` executes 60 frozen synthetic gold cases against a fresh SQLite database

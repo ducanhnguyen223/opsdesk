@@ -41,7 +41,12 @@ not a reduced substitute for the full plan in `../../../docs/plans/2026-09-10-sa
   No OCR; no original PDF retention; page markers are preserved in extracted text.
 - [x] Full `verify.py` rerun after PDF integration: 66 Python tests, JavaScript syntax,
   unsaved-draft check, dependency compatibility and real HTTP demo all pass.
-- [ ] Timeout/retry policy, usage/cost ledger, per-user limits and enforced spend ceiling.
+- [x] No automatic paid retries; durable usage ledger, atomic global/per-actor request limits
+  and optional app-side nano-USD ceiling. The live transport requires explicit budget/rates,
+  reserves from request-byte upper bound + 4,096 input-token margin and max output before HTTP,
+  replaces reservation only with reported usage, and retains it when usage is unknown.
+- [ ] Verify the selected model's current rates and provider-project billing limit before live use.
+  The local reservation is conservative application control, not a guarantee about provider billing.
 - [x] Optional persistent exact provider cache: hashed complete request plus model/prompt/schema
   and scoped actor identity/revision; no raw request storage. Restart reuse, actor/revision and
   evidence misses, duplicate in-flight blocking and corrupted-entry fail-closed behavior tested.
@@ -79,6 +84,10 @@ Full verify.py now passes 77 Python tests, JS checks, 60/60 offline eval and HTT
 
 Implemented after that run: optional exact provider cache plus two focused tests; provider
 and backend targeted suites pass. GitHub CI is the next full-suite verification for this commit.
+
+Implemented next: optional cost-aware ledger migration and UI amount, atomic budget contention,
+unknown-usage reservation retention, strict configuration and pre-network ceiling rejection.
+Focused usage/provider tests pass; no paid request was made. GitHub CI is the full verification.
 
 Handoff 2026-09-14: authenticated `/api/usage` and the Sử dụng AI view are implemented; scoped summaries
 exclude other actors/tenants and show unknown usage explicitly. 74 Python tests plus

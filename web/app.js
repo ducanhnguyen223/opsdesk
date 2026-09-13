@@ -55,6 +55,7 @@ async function usage(){
   for(const [label,value] of [['Lượt đã giữ chỗ',s.requests],['Còn theo tài khoản',s.remaining_requests],['Lượt lỗi',s.failed],['Chưa kết thúc',s.reserved]]){const item=node('div',undefined,'metric');item.append(node('span',label),node('strong',String(value)));metrics.append(item);}
   panel.append(node('p',`Giới hạn tài khoản: ${s.request_limit} lượt trong toàn bộ lịch sử. Giới hạn chung của hệ thống cũng có thể chặn lượt mới. Lượt lỗi hoặc bị gián đoạn không tự hoàn lại.`, 'hint'));
   panel.append(node('p',`Token đã được báo cáo: đầu vào ${s.input_tokens??'chưa biết'} · đầu ra ${s.output_tokens??'chưa biết'}. ${s.unknown_usage} lượt chưa có đủ số liệu; tổng có thể chưa đầy đủ.`, 'hint'));
+  panel.append(node('p',s.pricing_configured?`Chi phí hạch toán cục bộ của tài khoản: $${s.accounted_cost_usd.toFixed(6)} USD. Đây không phải hóa đơn của nhà cung cấp.`:'Chưa cấu hình đơn giá; không hiển thị ước tính chi phí giả.', 'hint'));
   panel.append(node('h2','20 lượt gần nhất'));
   if(!s.items.length)empty(panel,'Chưa có lượt gọi','Nhật ký sẽ xuất hiện khi GPT thực sự được gọi.');
   const names={completed:'Đã nhận kết quả',failed:'Lỗi / kết quả bị từ chối',reserved:'Đang xử lý hoặc đã gián đoạn'};

@@ -1,4 +1,5 @@
 import json
+from contextlib import closing
 import sqlite3
 import tempfile
 import unittest
@@ -7,6 +8,7 @@ from pathlib import Path
 import httpx
 
 from openai_provider import ENDPOINT, ExactCache, OpenAIProvider
+from usage import UsageLedger
 
 
 CONTEXT = {"shipment": {"id": "SHP-1042"}, "orders": [], "documents": [], "retrieved_chunks": []}
@@ -21,6 +23,22 @@ def completed(content=None):
 
 
 class OpenAIContractChecks(unittest.TestCase):
+    def test_cost_ceiling_blocks_before_network(self):
+        with tempfile.TemporaryDirectory() as directory:
+            ledger = UsageLedger(Path(directory) / "usage.sqlite3", max_requests=2,
+                per_actor_requests=2, budget_usd="0.000001", input_usd_per_million=1,
+                output_usd_per_million=1)
+            requests = []
+            with httpx.Client(transport=httpx.MockTransport(
+                    lambda request: requests.append(request) or httpx.Response(200, json=completed()))) as client:
+                provider = OpenAIProvider(api_key="test", model="model-a", client=client, ledger=ledger)
+                context = {**CONTEXT, "actor": {"tenant_id": "A", "id": "A-operator"}}
+                with self.assertRaisesRegex(ConnectionError, "cost ceiling"):
+                    provider("SHP-1042", context)
+            self.assertEqual(requests, [])
+            with closing(ledger.connect()) as db:
+                self.assertEqual(db.execute("SELECT count(*) FROM provider_calls").fetchone()[0], 0)
+
     def test_exact_cache_persists_and_scopes_actor_and_evidence(self):
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "cache.sqlite3"
@@ -43,7 +61,7 @@ class OpenAIContractChecks(unittest.TestCase):
                 changed_evidence = {**context, "shipment": {"id": "SHP-1042", "revision": 2}}
                 restarted("PRIVATE NOTICE SHP-1042", changed_evidence)
             self.assertEqual(len(requests), 3)
-            with sqlite3.connect(path) as db:
+            with closing(sqlite3.connect(path)) as db:
                 dump = "\n".join(db.iterdump())
             self.assertNotIn("PRIVATE NOTICE", dump)
             self.assertNotIn("test", dump)
@@ -55,13 +73,13 @@ class OpenAIContractChecks(unittest.TestCase):
             self.assertEqual(cache.claim(key), (None, True))
             with self.assertRaisesRegex(ConnectionError, "already in progress"):
                 cache.claim(key)
-            with sqlite3.connect(cache.path) as db:
+            with closing(sqlite3.connect(cache.path)) as db, db:
                 db.execute("UPDATE provider_cache SET claimed_at=0 WHERE key=?", (key,))
                 db.commit()
             self.assertEqual(cache.claim(key), (None, True))
             cache.store(key, CHOICE)
             self.assertEqual(cache.claim(key), (CHOICE, False))
-            with sqlite3.connect(cache.path) as db:
+            with closing(sqlite3.connect(cache.path)) as db, db:
                 db.execute("UPDATE provider_cache SET body='not json' WHERE key=?", (key,))
                 db.commit()
             with self.assertRaisesRegex(ValueError, "corrupt"):
@@ -128,6 +146,9 @@ class OpenAIContractChecks(unittest.TestCase):
                 OpenAIProvider(api_key=key, model=model)
         with self.assertRaisesRegex(ValueError, "ledger"):
             OpenAIProvider(api_key="test-key", model="test-model")
+        with tempfile.TemporaryDirectory() as directory, self.assertRaisesRegex(ValueError, "cost-aware"):
+            OpenAIProvider(api_key="test-key", model="test-model", ledger=UsageLedger(
+                Path(directory) / "usage.sqlite3", max_requests=1, per_actor_requests=1))
 
     def test_invalid_draft_fails_closed(self):
         for draft in (None, " ", "x" * 4001, 3):

@@ -1,4 +1,5 @@
 import json
+import sqlite3
 import tempfile
 import unittest
 from concurrent.futures import ThreadPoolExecutor
@@ -16,10 +17,13 @@ from usage import UsageLedger
 class UsageChecks(unittest.TestCase):
     def test_usage_api_is_authenticated_and_isolates_actor_and_tenant(self):
         with tempfile.TemporaryDirectory() as directory:
-            ledger = UsageLedger(Path(directory) / "usage.sqlite3", max_requests=50, per_actor_requests=30)
+            ledger = UsageLedger(Path(directory) / "usage.sqlite3", max_requests=50,
+                per_actor_requests=30, budget_usd=1, input_usd_per_million=1,
+                output_usd_per_million=2)
             for tenant, actor, amount in (("A", "A-operator", 25), ("A", "A-viewer", 1), ("B", "B-operator", 1)):
                 for i in range(amount):
-                    call = ledger.reserve({"tenant_id": tenant, "id": actor}, actor+"-model", "v1")
+                    call = ledger.reserve({"tenant_id": tenant, "id": actor}, actor+"-model", "v1",
+                                          input_upper_tokens=100, output_upper_tokens=100)
                     if i == 0:
                         ledger.record_usage(call, {"usage": {"input_tokens": 9, "output_tokens": 2}})
                         ledger.finish(call, "completed")
@@ -35,6 +39,7 @@ class UsageChecks(unittest.TestCase):
                     self.assertEqual(summary['unknown_usage'],count-1)
                     self.assertEqual(summary['input_tokens'],9)
                     self.assertEqual(summary['remaining_requests'],30-count)
+                    self.assertTrue(summary['pricing_configured'])
                     self.assertEqual(len(summary['items']),min(20,count))
                     self.assertTrue(all(item['model']==actor+'-model' for item in summary['items']))
                     self.assertTrue(all(item['started_at'].endswith('Z') for item in summary['items']))
@@ -108,3 +113,57 @@ class UsageChecks(unittest.TestCase):
             with closing(ledger.connect()) as db:
                 self.assertEqual(db.execute("SELECT status,input_tokens,output_tokens FROM provider_calls").fetchone(),
                                  ("reserved", None, None))
+
+    def test_cost_ceiling_releases_only_reported_difference(self):
+        with tempfile.TemporaryDirectory() as directory:
+            ledger = UsageLedger(Path(directory) / "usage.sqlite3", max_requests=10,
+                per_actor_requests=10, budget_usd="0.000010", input_usd_per_million=1,
+                output_usd_per_million=1)
+            actor = {"tenant_id": "A", "id": "operator"}
+            first = ledger.reserve(actor, "test", "v1", input_upper_tokens=3,
+                                   output_upper_tokens=3)
+            ledger.record_usage(first, {"usage": {"input_tokens": 2, "output_tokens": 2}})
+            ledger.finish(first, "completed")
+            second = ledger.reserve(actor, "test", "v1", input_upper_tokens=3,
+                                    output_upper_tokens=3)
+            ledger.finish(second, "failed")
+            with self.assertRaisesRegex(ConnectionError, "cost ceiling"):
+                ledger.reserve(actor, "test", "v1", input_upper_tokens=0,
+                               output_upper_tokens=1)
+            summary = ledger.summary(actor)
+            self.assertEqual(summary["accounted_cost_usd"], 0.00001)
+            self.assertTrue(summary["pricing_configured"])
+
+    def test_cost_reservation_is_atomic_and_configuration_is_strict(self):
+        with tempfile.TemporaryDirectory() as directory:
+            ledger = UsageLedger(Path(directory) / "usage.sqlite3", max_requests=20,
+                per_actor_requests=20, budget_usd="0.000010", input_usd_per_million=1,
+                output_usd_per_million=1)
+            def reserve(index):
+                try:
+                    return ledger.reserve({"tenant_id": str(index), "id": "operator"},
+                        "test", "v1", input_upper_tokens=6, output_upper_tokens=0)
+                except ConnectionError:
+                    return None
+            with ThreadPoolExecutor(max_workers=8) as pool:
+                self.assertEqual(sum(value is not None for value in pool.map(reserve, range(8))), 1)
+        for kwargs in ({"budget_usd": 1},
+                       {"budget_usd": 0, "input_usd_per_million": 1, "output_usd_per_million": 1},
+                       {"budget_usd": "nan", "input_usd_per_million": 1, "output_usd_per_million": 1}):
+            with tempfile.TemporaryDirectory() as directory, self.assertRaises(ValueError):
+                UsageLedger(Path(directory) / "usage.sqlite3", max_requests=1,
+                            per_actor_requests=1, **kwargs)
+
+    def test_existing_ledger_schema_migrates_without_losing_rows(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "usage.sqlite3"
+            with closing(sqlite3.connect(path)) as db, db:
+                db.execute("""CREATE TABLE provider_calls (id TEXT PRIMARY KEY, tenant TEXT,
+                    actor TEXT, model TEXT, prompt_version TEXT, started_at TEXT,
+                    finished_at TEXT, status TEXT, input_tokens INTEGER, output_tokens INTEGER)""")
+                db.execute("INSERT INTO provider_calls VALUES ('old','A','operator','m','v',CURRENT_TIMESTAMP,NULL,'failed',NULL,NULL)")
+            ledger = UsageLedger(path, max_requests=5, per_actor_requests=5)
+            with closing(sqlite3.connect(path)) as db:
+                columns = {row[1] for row in db.execute("PRAGMA table_info(provider_calls)")}
+                self.assertTrue({"reserved_nano_usd", "actual_nano_usd"} <= columns)
+                self.assertEqual(db.execute("SELECT count(*) FROM provider_calls").fetchone()[0], 1)
