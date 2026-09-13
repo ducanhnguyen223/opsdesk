@@ -1,0 +1,821 @@
+{
+  "kind": "offline synthetic retrieval benchmark",
+  "dataset": "opsdesk-retrieval-v1",
+  "dataset_sha256": "0ecd99945391ee0d6c3af2bd72daffb9d71e69fec93203f1d789550c558585ae",
+  "model": "intfloat/multilingual-e5-small",
+  "model_revision": "614241f622f53c4eeff9890bdc4f31cfecc418b3",
+  "model_file": "onnx/model_O4.onnx",
+  "runtime": {
+    "python": "3.14.0",
+    "platform": "macOS-26.4.1-arm64-arm-64bit-Mach-O",
+    "index_seconds": 0.785,
+    "bm25_query_p50_ms": 0.412,
+    "dense_query_p50_ms": 4.458
+  },
+  "query_count": 28,
+  "authorized_document_count": 14,
+  "forbidden_rankings": 0,
+  "metrics": {
+    "bm25": {
+      "top_1_accuracy": 0.6428571428571429,
+      "recall_at_3": 0.7857142857142857,
+      "mrr": 0.7244047619047619
+    },
+    "dense": {
+      "top_1_accuracy": 0.7142857142857143,
+      "recall_at_3": 0.9285714285714286,
+      "mrr": 0.8166666666666667
+    },
+    "hybrid": {
+      "top_1_accuracy": 0.7857142857142857,
+      "recall_at_3": 0.8928571428571429,
+      "mrr": 0.843452380952381
+    }
+  },
+  "results": [
+    {
+      "id": "Q01",
+      "query": "lô trễ hẹn hơn một ngày",
+      "relevant": [
+        "DELAY"
+      ],
+      "bm25": [
+        "CUSTOMS",
+        "PARTIAL",
+        "COLD_CHAIN",
+        "ADDRESS",
+        "COD"
+      ],
+      "dense": [
+        "REDELIVERY",
+        "LOST",
+        "DELAY",
+        "CUSTOMS",
+        "RETURN"
+      ],
+      "hybrid": [
+        "CUSTOMS",
+        "PARTIAL",
+        "DELAY",
+        "ADDRESS",
+        "REDELIVERY"
+      ]
+    },
+    {
+      "id": "Q02",
+      "query": "ETA bị vỡ, cần làm gì trước khi báo khách",
+      "relevant": [
+        "DELAY"
+      ],
+      "bm25": [
+        "DELAY",
+        "WEATHER",
+        "CUSTOMS",
+        "DANGEROUS",
+        "DAMAGE"
+      ],
+      "dense": [
+        "DELAY",
+        "REDELIVERY",
+        "ADDRESS",
+        "DAMAGE",
+        "LOST"
+      ],
+      "hybrid": [
+        "DELAY",
+        "REDELIVERY",
+        "WEATHER",
+        "DAMAGE",
+        "DANGEROUS"
+      ]
+    },
+    {
+      "id": "Q03",
+      "query": "thùng hàng bị móp và ngấm nước",
+      "relevant": [
+        "DAMAGE"
+      ],
+      "bm25": [
+        "DAMAGE",
+        "DELAY",
+        "CUSTOMS",
+        "DANGEROUS",
+        "DELIVERY_PROOF"
+      ],
+      "dense": [
+        "LOST",
+        "DAMAGE",
+        "DANGEROUS",
+        "DUPLICATE",
+        "COLD_CHAIN"
+      ],
+      "hybrid": [
+        "DAMAGE",
+        "DANGEROUS",
+        "LOST",
+        "CUSTOMS",
+        "DELAY"
+      ]
+    },
+    {
+      "id": "Q04",
+      "query": "kiện rách nát lúc tới kho",
+      "relevant": [
+        "DAMAGE"
+      ],
+      "bm25": [
+        "DAMAGE",
+        "DUPLICATE",
+        "PARTIAL",
+        "ADDRESS",
+        "RETURN"
+      ],
+      "dense": [
+        "LOST",
+        "DAMAGE",
+        "DELAY",
+        "REDELIVERY",
+        "CUSTOMS"
+      ],
+      "hybrid": [
+        "DAMAGE",
+        "LOST",
+        "DUPLICATE",
+        "DELAY",
+        "RETURN"
+      ]
+    },
+    {
+      "id": "Q05",
+      "query": "khách chuyển nhà muốn đổi nơi nhận",
+      "relevant": [
+        "ADDRESS"
+      ],
+      "bm25": [
+        "COD",
+        "DELAY",
+        "PARTIAL",
+        "DANGEROUS",
+        "DUPLICATE"
+      ],
+      "dense": [
+        "ADDRESS",
+        "REDELIVERY",
+        "RETURN",
+        "DELAY",
+        "DUPLICATE"
+      ],
+      "hybrid": [
+        "DELAY",
+        "RETURN",
+        "ADDRESS",
+        "COD",
+        "REDELIVERY"
+      ]
+    },
+    {
+      "id": "Q06",
+      "query": "sửa điểm giao khi hàng đang trên đường",
+      "relevant": [
+        "ADDRESS"
+      ],
+      "bm25": [
+        "DELIVERY_PROOF",
+        "DELAY",
+        "DAMAGE",
+        "WEATHER",
+        "REDELIVERY"
+      ],
+      "dense": [
+        "REDELIVERY",
+        "DELIVERY_PROOF",
+        "ADDRESS",
+        "WEATHER",
+        "DUPLICATE"
+      ],
+      "hybrid": [
+        "DELIVERY_PROOF",
+        "REDELIVERY",
+        "WEATHER",
+        "ADDRESS",
+        "DAMAGE"
+      ]
+    },
+    {
+      "id": "Q07",
+      "query": "tiền tài xế thu lệch với giá trị đơn",
+      "relevant": [
+        "COD"
+      ],
+      "bm25": [
+        "COD",
+        "WEATHER",
+        "DELIVERY_PROOF",
+        "DUPLICATE",
+        "DELAY"
+      ],
+      "dense": [
+        "COD",
+        "DELIVERY_PROOF",
+        "PARTIAL",
+        "RETURN",
+        "CUSTOMS"
+      ],
+      "hybrid": [
+        "COD",
+        "DELIVERY_PROOF",
+        "WEATHER",
+        "PARTIAL",
+        "DUPLICATE"
+      ]
+    },
+    {
+      "id": "Q08",
+      "query": "đối soát khoản thanh toán khi giao hàng",
+      "relevant": [
+        "COD"
+      ],
+      "bm25": [
+        "PARTIAL",
+        "COD",
+        "REDELIVERY",
+        "WEATHER",
+        "DELIVERY_PROOF"
+      ],
+      "dense": [
+        "COD",
+        "DELIVERY_PROOF",
+        "PARTIAL",
+        "CUSTOMS",
+        "DUPLICATE"
+      ],
+      "hybrid": [
+        "COD",
+        "PARTIAL",
+        "DELIVERY_PROOF",
+        "REDELIVERY",
+        "ADDRESS"
+      ]
+    },
+    {
+      "id": "Q09",
+      "query": "hàng đông lạnh bị nóng hơn ngưỡng",
+      "relevant": [
+        "COLD_CHAIN"
+      ],
+      "bm25": [
+        "DELAY",
+        "DAMAGE",
+        "PARTIAL",
+        "COLD_CHAIN",
+        "CUSTOMS"
+      ],
+      "dense": [
+        "COLD_CHAIN",
+        "LOST",
+        "DAMAGE",
+        "DELAY",
+        "REDELIVERY"
+      ],
+      "hybrid": [
+        "COLD_CHAIN",
+        "DELAY",
+        "DAMAGE",
+        "LOST",
+        "CUSTOMS"
+      ]
+    },
+    {
+      "id": "Q10",
+      "query": "cold chain sensor ghi nhận nhiệt bất thường",
+      "relevant": [
+        "COLD_CHAIN"
+      ],
+      "bm25": [
+        "ADDRESS",
+        "COLD_CHAIN",
+        "PARTIAL",
+        "DANGEROUS",
+        "REDELIVERY"
+      ],
+      "dense": [
+        "COLD_CHAIN",
+        "WEATHER",
+        "REDELIVERY",
+        "DUPLICATE",
+        "DANGEROUS"
+      ],
+      "hybrid": [
+        "COLD_CHAIN",
+        "REDELIVERY",
+        "DANGEROUS",
+        "DUPLICATE",
+        "ADDRESS"
+      ]
+    },
+    {
+      "id": "Q11",
+      "query": "kiện biến mất giữa hai kho trung chuyển",
+      "relevant": [
+        "LOST"
+      ],
+      "bm25": [
+        "LOST",
+        "DUPLICATE",
+        "RETURN",
+        "DAMAGE",
+        "COD"
+      ],
+      "dense": [
+        "DUPLICATE",
+        "LOST",
+        "RETURN",
+        "DAMAGE",
+        "CUSTOMS"
+      ],
+      "hybrid": [
+        "DUPLICATE",
+        "LOST",
+        "RETURN",
+        "DAMAGE",
+        "COD"
+      ]
+    },
+    {
+      "id": "Q12",
+      "query": "hai ngày không có scan mới",
+      "relevant": [
+        "LOST"
+      ],
+      "bm25": [
+        "CUSTOMS",
+        "LOST",
+        "DUPLICATE",
+        "ADDRESS",
+        "DELAY"
+      ],
+      "dense": [
+        "LOST",
+        "REDELIVERY",
+        "CUSTOMS",
+        "DELAY",
+        "DUPLICATE"
+      ],
+      "hybrid": [
+        "LOST",
+        "CUSTOMS",
+        "DUPLICATE",
+        "REDELIVERY",
+        "DELAY"
+      ]
+    },
+    {
+      "id": "Q13",
+      "query": "nhà vắng người, xin ship thêm lần nữa",
+      "relevant": [
+        "REDELIVERY"
+      ],
+      "bm25": [
+        "REDELIVERY",
+        "RETURN",
+        "ADDRESS",
+        "LOST",
+        "COD"
+      ],
+      "dense": [
+        "REDELIVERY",
+        "LOST",
+        "RETURN",
+        "DELAY",
+        "DAMAGE"
+      ],
+      "hybrid": [
+        "REDELIVERY",
+        "RETURN",
+        "LOST",
+        "ADDRESS",
+        "DAMAGE"
+      ]
+    },
+    {
+      "id": "Q14",
+      "query": "hẹn lại giờ giao sau lần phát hụt",
+      "relevant": [
+        "REDELIVERY"
+      ],
+      "bm25": [
+        "REDELIVERY",
+        "RETURN",
+        "LOST",
+        "DUPLICATE",
+        "DELAY"
+      ],
+      "dense": [
+        "REDELIVERY",
+        "LOST",
+        "RETURN",
+        "DELAY",
+        "ADDRESS"
+      ],
+      "hybrid": [
+        "REDELIVERY",
+        "LOST",
+        "RETURN",
+        "DELAY",
+        "DUPLICATE"
+      ]
+    },
+    {
+      "id": "Q15",
+      "query": "khách không nhận, đưa hàng về shop",
+      "relevant": [
+        "RETURN"
+      ],
+      "bm25": [
+        "LOST",
+        "DELAY",
+        "COD",
+        "REDELIVERY",
+        "CUSTOMS"
+      ],
+      "dense": [
+        "LOST",
+        "REDELIVERY",
+        "CUSTOMS",
+        "DELAY",
+        "ADDRESS"
+      ],
+      "hybrid": [
+        "LOST",
+        "DELAY",
+        "REDELIVERY",
+        "CUSTOMS",
+        "COD"
+      ]
+    },
+    {
+      "id": "Q16",
+      "query": "khi nào được hoàn kiện cho người bán",
+      "relevant": [
+        "RETURN"
+      ],
+      "bm25": [
+        "RETURN",
+        "ADDRESS",
+        "DELAY",
+        "COLD_CHAIN",
+        "DAMAGE"
+      ],
+      "dense": [
+        "RETURN",
+        "LOST",
+        "DELAY",
+        "DUPLICATE",
+        "DELIVERY_PROOF"
+      ],
+      "hybrid": [
+        "RETURN",
+        "DELAY",
+        "ADDRESS",
+        "LOST",
+        "DAMAGE"
+      ]
+    },
+    {
+      "id": "Q17",
+      "query": "lô bị giữ ở cửa khẩu vì thiếu giấy tờ",
+      "relevant": [
+        "CUSTOMS"
+      ],
+      "bm25": [
+        "CUSTOMS",
+        "REDELIVERY",
+        "DELIVERY_PROOF",
+        "COD",
+        "DUPLICATE"
+      ],
+      "dense": [
+        "CUSTOMS",
+        "REDELIVERY",
+        "DUPLICATE",
+        "LOST",
+        "RETURN"
+      ],
+      "hybrid": [
+        "CUSTOMS",
+        "REDELIVERY",
+        "DUPLICATE",
+        "DELIVERY_PROOF",
+        "DAMAGE"
+      ]
+    },
+    {
+      "id": "Q18",
+      "query": "chưa được thông quan thì cam kết ngày giao thế nào",
+      "relevant": [
+        "CUSTOMS"
+      ],
+      "bm25": [
+        "CUSTOMS",
+        "COLD_CHAIN",
+        "LOST",
+        "DUPLICATE",
+        "PARTIAL"
+      ],
+      "dense": [
+        "REDELIVERY",
+        "CUSTOMS",
+        "ADDRESS",
+        "DELIVERY_PROOF",
+        "LOST"
+      ],
+      "hybrid": [
+        "CUSTOMS",
+        "LOST",
+        "ADDRESS",
+        "REDELIVERY",
+        "PARTIAL"
+      ]
+    },
+    {
+      "id": "Q19",
+      "query": "khách mới nhận một phần của đơn",
+      "relevant": [
+        "PARTIAL"
+      ],
+      "bm25": [
+        "PARTIAL",
+        "COD",
+        "DELAY",
+        "LOST",
+        "DELIVERY_PROOF"
+      ],
+      "dense": [
+        "PARTIAL",
+        "ADDRESS",
+        "RETURN",
+        "REDELIVERY",
+        "LOST"
+      ],
+      "hybrid": [
+        "PARTIAL",
+        "ADDRESS",
+        "COD",
+        "LOST",
+        "DELAY"
+      ]
+    },
+    {
+      "id": "Q20",
+      "query": "một đơn tách thành nhiều kiện giao khác ngày",
+      "relevant": [
+        "PARTIAL"
+      ],
+      "bm25": [
+        "PARTIAL",
+        "CUSTOMS",
+        "REDELIVERY",
+        "DUPLICATE",
+        "ADDRESS"
+      ],
+      "dense": [
+        "PARTIAL",
+        "RETURN",
+        "REDELIVERY",
+        "COD",
+        "DUPLICATE"
+      ],
+      "hybrid": [
+        "PARTIAL",
+        "REDELIVERY",
+        "DUPLICATE",
+        "CUSTOMS",
+        "RETURN"
+      ]
+    },
+    {
+      "id": "Q21",
+      "query": "hai gói có cùng tracking number",
+      "relevant": [
+        "DUPLICATE"
+      ],
+      "bm25": [
+        "CUSTOMS",
+        "LOST",
+        "DUPLICATE",
+        "DANGEROUS",
+        "COLD_CHAIN"
+      ],
+      "dense": [
+        "DUPLICATE",
+        "REDELIVERY",
+        "LOST",
+        "DELIVERY_PROOF",
+        "PARTIAL"
+      ],
+      "hybrid": [
+        "DUPLICATE",
+        "LOST",
+        "DANGEROUS",
+        "CUSTOMS",
+        "ADDRESS"
+      ]
+    },
+    {
+      "id": "Q22",
+      "query": "nhãn vận chuyển bị trùng định danh",
+      "relevant": [
+        "DUPLICATE"
+      ],
+      "bm25": [
+        "DUPLICATE",
+        "DELAY",
+        "DANGEROUS",
+        "LOST",
+        "WEATHER"
+      ],
+      "dense": [
+        "DUPLICATE",
+        "DANGEROUS",
+        "CUSTOMS",
+        "DELAY",
+        "ADDRESS"
+      ],
+      "hybrid": [
+        "DUPLICATE",
+        "DANGEROUS",
+        "DELAY",
+        "CUSTOMS",
+        "DAMAGE"
+      ]
+    },
+    {
+      "id": "Q23",
+      "query": "gửi thiết bị có pin dễ cháy",
+      "relevant": [
+        "DANGEROUS"
+      ],
+      "bm25": [
+        "DANGEROUS",
+        "CUSTOMS",
+        "RETURN",
+        "DAMAGE",
+        "DELAY"
+      ],
+      "dense": [
+        "DANGEROUS",
+        "REDELIVERY",
+        "RETURN",
+        "DELAY",
+        "LOST"
+      ],
+      "hybrid": [
+        "DANGEROUS",
+        "RETURN",
+        "DELAY",
+        "CUSTOMS",
+        "LOST"
+      ]
+    },
+    {
+      "id": "Q24",
+      "query": "vận chuyển vật phẩm nguy hiểm cần thủ tục gì",
+      "relevant": [
+        "DANGEROUS"
+      ],
+      "bm25": [
+        "DANGEROUS",
+        "COD",
+        "DUPLICATE",
+        "DELAY",
+        "CUSTOMS"
+      ],
+      "dense": [
+        "DANGEROUS",
+        "CUSTOMS",
+        "DUPLICATE",
+        "DAMAGE",
+        "DELIVERY_PROOF"
+      ],
+      "hybrid": [
+        "DANGEROUS",
+        "DUPLICATE",
+        "CUSTOMS",
+        "DELAY",
+        "COD"
+      ]
+    },
+    {
+      "id": "Q25",
+      "query": "mưa bão khiến xe không thể chạy an toàn",
+      "relevant": [
+        "WEATHER"
+      ],
+      "bm25": [
+        "WEATHER",
+        "COD",
+        "PARTIAL",
+        "DELIVERY_PROOF",
+        "DANGEROUS"
+      ],
+      "dense": [
+        "WEATHER",
+        "DAMAGE",
+        "COD",
+        "REDELIVERY",
+        "LOST"
+      ],
+      "hybrid": [
+        "WEATHER",
+        "COD",
+        "REDELIVERY",
+        "DAMAGE",
+        "DANGEROUS"
+      ]
+    },
+    {
+      "id": "Q26",
+      "query": "đường ngập phải xử lý lịch vận tải ra sao",
+      "relevant": [
+        "WEATHER"
+      ],
+      "bm25": [
+        "WEATHER",
+        "COLD_CHAIN",
+        "RETURN",
+        "DELIVERY_PROOF",
+        "DUPLICATE"
+      ],
+      "dense": [
+        "WEATHER",
+        "DELAY",
+        "DELIVERY_PROOF",
+        "COD",
+        "ADDRESS"
+      ],
+      "hybrid": [
+        "WEATHER",
+        "DELIVERY_PROOF",
+        "DELAY",
+        "COLD_CHAIN",
+        "COD"
+      ]
+    },
+    {
+      "id": "Q27",
+      "query": "khách nói chưa nhận nhưng hệ thống báo đã phát",
+      "relevant": [
+        "DELIVERY_PROOF"
+      ],
+      "bm25": [
+        "DELAY",
+        "CUSTOMS",
+        "RETURN",
+        "LOST",
+        "DELIVERY_PROOF"
+      ],
+      "dense": [
+        "REDELIVERY",
+        "LOST",
+        "ADDRESS",
+        "DELAY",
+        "DELIVERY_PROOF"
+      ],
+      "hybrid": [
+        "DELAY",
+        "LOST",
+        "CUSTOMS",
+        "REDELIVERY",
+        "DELIVERY_PROOF"
+      ]
+    },
+    {
+      "id": "Q28",
+      "query": "cần kiểm tra ảnh, vị trí và chữ ký người nhận",
+      "relevant": [
+        "DELIVERY_PROOF"
+      ],
+      "bm25": [
+        "DELIVERY_PROOF",
+        "REDELIVERY",
+        "RETURN",
+        "COD",
+        "DUPLICATE"
+      ],
+      "dense": [
+        "DELIVERY_PROOF",
+        "DUPLICATE",
+        "ADDRESS",
+        "REDELIVERY",
+        "RETURN"
+      ],
+      "hybrid": [
+        "DELIVERY_PROOF",
+        "REDELIVERY",
+        "DUPLICATE",
+        "RETURN",
+        "ADDRESS"
+      ]
+    }
+  ]
+}

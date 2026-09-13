@@ -31,7 +31,9 @@ not a reduced substitute for the full plan in `../../../docs/plans/2026-09-10-sa
 - [x] Browser verified draft v1 and edited-subject v2 in EX-9006, then reopened after page/session
   changes: exact edited subject/body and both audit entries persisted. Attempting to leave with
   an unsaved title showed the expected warning; discard restored the saved draft.
-- [ ] Document ingestion and management; ranked keyword/hybrid comparison with actual embeddings.
+- [x] Document ingestion and management; ranked keyword/hybrid comparison with actual embeddings.
+  The frozen 28-query synthetic benchmark records raw rankings and model revision. Hybrid leads
+  top-1/MRR, dense leads recall@3; production remains BM25 until a larger reviewed set confirms it.
 - [x] PDF text extraction API and frontend import control implemented using pinned pypdf.
   Real parser subprocess + API tests verify extraction, preview without database mutation,
   explicit save/search, permissions, blank/encrypted/malformed/oversized text, timeout and busy
@@ -66,8 +68,8 @@ not a reduced substitute for the full plan in `../../../docs/plans/2026-09-10-sa
 - [x] Local verification entrypoint `verify.py` passed dependency compatibility, 62 Python tests,
   JavaScript syntax/unsaved-state checks, and real localhost HTTP smoke. README updated to current
   functionality; architecture/trust-boundary documentation added.
-- [x] GitHub Actions workflow authored with read-only token permissions, disabled credential
-  persistence and SHA-pinned actions. Hosted CI is NOT verified; repository publication is pending.
+- [x] Public GitHub repository plus hosted Actions with read-only token permissions, disabled
+  credential persistence and SHA-pinned actions. Published checkpoints have passing CI runs.
 - [ ] Backend repository and working web demo delivery; verify both from the delivered artifacts.
 
 Related follow-ups remain ordered after the product: CV/profile presentation and reversible

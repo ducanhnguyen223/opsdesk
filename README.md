@@ -4,8 +4,8 @@ An independent portfolio project exploring evidence-based handling of shipment d
 
 **Current state, verified 2026-09-14:** working local operations web app with a
 synthetic logistics queue, grounded offline analysis, reviewed tickets and versioned
-operator-edited drafts. The OpenAI adapter has mocked protocol tests only. Live LLM,
-vector/hybrid retrieval, cache benchmarks and public deployment are not complete.
+operator-edited drafts. The OpenAI adapter has mocked protocol tests only. A reproducible
+offline retrieval experiment exists; live LLM and public deployment are not complete.
 
 Licensed under the [MIT License](LICENSE). All companies, customers, carriers,
 shipments and operational records in the demo are fictional.
@@ -50,7 +50,7 @@ Stop the server with Ctrl-C. Use `--db /path/to/new.sqlite3` for a separate demo
 
 ## What is verified
 
-- 83 Python tests covering workflow, retrieval, provider contracts, usage/cost allowances, workspace,
+- 84 Python tests covering workflow, retrieval, provider contracts, usage/cost allowances, workspace,
   case/draft persistence and PDF extraction. A Node check exercises the unsaved-draft guard.
 - Browser-observed case workflow: filter, inspect, claim, analyze, review, approve,
   resolve and inspect audit history. Draft versions v1/v2 survived reopening the page.
@@ -69,6 +69,11 @@ Stop the server with Ctrl-C. Use `--db /path/to/new.sqlite3` for a separate demo
   document list/search, versioned creation/update/history. Concurrent edits use expected
   version checks; old versions are retained atomically. Stored analyses cannot bypass
   later document permission revocation.
+- Frozen retrieval benchmark: 28 synthetic Vietnamese queries across 14 authorized procedures.
+  With `intfloat/multilingual-e5-small` revision `614241f` (ONNX O4), BM25 top-1 was
+  64.3%, dense 71.4% and reciprocal-rank hybrid 78.6%; dense recall@3 (92.9%) remained
+  above hybrid (89.3%). No foreign, expired, role-restricted or untrusted document reached
+  a ranking. These are small offline fixture results, not production quality claims.
 
 ## Limits and decisions
 
@@ -87,7 +92,8 @@ Stop the server with Ctrl-C. Use `--db /path/to/new.sqlite3` for a separate demo
 - The deterministic adapter handles shipment IDs and a few explicit contradictory
   phrases, **not general language understanding**. Retrieval now chunks source text
   with exact offsets, ranks by accent-insensitive BM25 after scope/validity filtering,
-  and verifies quotes against authorized chunks. This is lexical, not vector search.
+  and verifies quotes against authorized chunks. Production search remains lexical;
+  dense/hybrid retrieval is measured separately and is not enabled by default.
 - Every applicable procedure remains represented in policy citations, even when its
   lexical score is zero: policy metadata, not ranking, determines applicability.
   Conflicts are checked before top-k retrieval, never hidden by relevance ranking.
@@ -149,8 +155,20 @@ Run it with the project's virtual-environment Python, not a shared global enviro
 Run only the reproducible offline evaluation with `.venv/bin/python evaluate.py`.
 It writes `artifacts/evaluation_offline.json`.
 
-The GitHub Actions workflow runs the same command on a clean runner. A workflow
-file is not proof of a passing hosted run: hosted CI is pending repository publication.
+The optional retrieval experiment does not affect the app or default verification:
+
+```sh
+python3 -m venv .venv-embeddings
+.venv-embeddings/bin/python -m pip install -r requirements-embeddings.txt
+.venv-embeddings/bin/python evaluate_retrieval.py
+```
+
+It downloads a 240 MB MIT-licensed multilingual E5 ONNX model into
+`~/.cache/opsdesk/fastembed` and writes raw rankings and metrics to
+`artifacts/retrieval_evaluation.json`. Use `--offline` after the first download.
+
+The GitHub Actions workflow runs the same command on a clean runner. Published checkpoints
+have passing hosted runs; the optional 240 MB embedding benchmark remains an explicit local run.
 The complete delivery checklist remains authoritative; this is not a production-ready
 or fully evaluated AI system yet.
 
