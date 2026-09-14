@@ -96,6 +96,15 @@ def scoped_rows(db, kind, tenant):
         "SELECT body FROM records WHERE kind=? AND tenant=? ORDER BY id", (kind, tenant))]
 
 
+def bound_actor(db, actor_id):
+    """Resolve the operator identity fixed by a trusted local process boundary."""
+    row = db.execute("SELECT body FROM records WHERE kind='actors' AND id=?", (actor_id,)).fetchone()
+    actor = json.loads(row["body"]) if row else None
+    if not actor or not actor["active"]:
+        raise Problem(401, "Configured actor is missing or inactive")
+    return actor
+
+
 def authenticate(db, token):
     row = db.execute("""SELECT r.body,s.auth_revision FROM sessions s
         JOIN records r ON r.kind='actors' AND r.id=s.actor_id

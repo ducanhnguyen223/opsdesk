@@ -23,7 +23,9 @@ not a reduced substitute for the full plan in `../../../docs/plans/2026-09-10-sa
   deterministic analysis with A-STANDARD-V2 citation, approve ticket, link ticket, resolve with note.
   DOM confirmed ticket/event/status persistence within the workflow. Desktop 1440 px and mobile
   390 px checked with no document horizontal overflow; complete visual/accessibility audit remains.
-- [ ] Live OpenAI generation and drafting end-to-end, with explicit model/cost authorization.
+- [x] Live Responses-compatible generation and drafting exercised end-to-end with explicit local
+  model configuration. The provider lacked JSON Schema support, so prompt JSON is strictly parsed
+  and validated server-side; this was a smoke check, not a live quality benchmark.
 - [x] Local operator-edited case drafts: recipient label, subject/body, immutable versions through
   the API, author/time, case audit event, tenant/role checks, analysis/shipment binding, stale evidence
   and concurrent-version rejection. No send endpoint. 62 Python tests pass plus
@@ -71,6 +73,9 @@ not a reduced substitute for the full plan in `../../../docs/plans/2026-09-10-sa
   functionality; architecture/trust-boundary documentation added.
 - [x] Public GitHub repository plus hosted Actions with read-only token permissions, disabled
   credential persistence and SHA-pinned actions. Published checkpoints have passing CI runs.
+- [x] Read-only local MCP adapter with host-bound actor identity and bounded `list_cases`,
+  `get_case` and `search_procedures` tools. MCP client tests cover tool schemas, tenant denial,
+  revoked identity and output limits; approval and external actions are not exposed.
 - [ ] Backend repository and working web demo delivery; verify both from the delivered artifacts.
 
 Related follow-ups remain ordered after the product: CV/profile presentation and reversible

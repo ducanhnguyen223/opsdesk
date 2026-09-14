@@ -19,6 +19,28 @@ STATES = {
 }
 
 
+def list_case_records(cases, actor, now, *, status="active", query="", mine=False, limit=None):
+    active = [case for case in cases if case["status"] != "resolved"]
+    filtered = [case for case in cases
+        if (status == "all" or (status == "active" and case["status"] != "resolved")
+            or case["status"] == status)
+        and (not mine or case["owner"] == actor["id"])
+        and query.casefold() in (case["id"] + case["shipment_id"] + case["customer"]
+                                 + case["carrier"]).casefold()]
+    filtered.sort(key=lambda case: (case["status"] == "resolved",
+        instant(case["due_at"]) >= instant(now),
+        {"critical": 0, "high": 1, "normal": 2}[case["priority"]],
+        instant(case["due_at"]), case["id"]))
+    items = [{key: value for key, value in case.items()
+              if key not in {"events", "notice", "order_items"}} for case in filtered]
+    return {"items": items[:limit] if limit is not None else items,
+            "metrics": {"active": len(active),
+                        "unassigned": sum(case["owner"] is None for case in active),
+                        "overdue": sum(instant(case["due_at"]) < instant(now) for case in active),
+                        "resolved": len(cases) - len(active)},
+            "as_of": now, "synthetic": True}
+
+
 def seed_cases(store, now):
     """Seed once, never reset operator work or refresh deadlines on restart."""
     with store.connect(write=True) as db:
@@ -166,19 +188,8 @@ def cases_router(store, clock):
               q: str = Query(default="", max_length=160), mine: bool = False):
         with store.connect() as db:
             actor = authenticate(db, request.cookies.get("opsdesk_session"))
-            cases = scoped_rows(db, "cases", actor["tenant_id"])
-            now = clock().isoformat()
-            active = [c for c in cases if c["status"] != "resolved"]
-            metrics = {"active": len(active), "unassigned": sum(c["owner"] is None for c in active),
-                       "overdue": sum(instant(c["due_at"]) < instant(now) for c in active),
-                       "resolved": len(cases) - len(active)}
-            filtered = [c for c in cases if (status == "all" or (status == "active" and c["status"] != "resolved") or c["status"] == status)
-                        and (not mine or c["owner"] == actor["id"])
-                        and q.casefold() in (c["id"] + c["shipment_id"] + c["customer"] + c["carrier"]).casefold()]
-            filtered.sort(key=lambda c: (c["status"] == "resolved", instant(c["due_at"]) >= instant(now),
-                {"critical":0, "high":1, "normal":2}[c["priority"]], instant(c["due_at"]), c["id"]))
-            return {"items": [{k: v for k, v in c.items() if k not in {"events", "notice", "order_items"}} for c in filtered],
-                    "metrics": metrics, "as_of": now, "synthetic": True}
+            return list_case_records(scoped_rows(db, "cases", actor["tenant_id"]), actor,
+                                     clock().isoformat(), status=status, query=q, mine=mine)
 
     @router.get("/{case_id}")
     def detail(case_id: str, request: Request):

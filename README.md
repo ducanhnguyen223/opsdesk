@@ -38,6 +38,16 @@ API documentation is available at `http://127.0.0.1:8767/docs`. A minimal flow i
 2. `POST /api/analyses` with `{"message":"Lô SHP-1042 chậm hai ngày."}`
 3. Review the result, then approve it with an `Idempotency-Key`
 
+For local MCP access, start OpsDesk once to create the database, then configure the MCP host
+to launch this read-only stdio server:
+
+```sh
+.venv/bin/python mcp_server.py --db ./opsdesk.sqlite3 --actor A-operator
+```
+
+It exposes `list_cases`, `get_case` and `search_procedures`. The host fixes the actor identity;
+tools cannot choose a tenant, database, approval or external action.
+
 Run the offline checks with:
 
 ```sh

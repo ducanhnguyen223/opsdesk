@@ -3,6 +3,7 @@
 ```mermaid
 flowchart LR
   UI[Browser: queue / case / draft / procedures] --> API[FastAPI: local boundary + server session]
+  MCP[Local read-only MCP: host-bound actor] --> DB
   API --> WORK[Workflow: verified facts + applicable policy]
   API --> DB[(SQLite: tenant-scoped records / versions / audit)]
   WORK --> RET[Authorized source chunks + BM25]
@@ -17,6 +18,8 @@ flowchart LR
 ## Trust boundaries
 
 - Session determines tenant/role. Request JSON cannot choose another tenant.
+- The local MCP host fixes actor and database at process launch; MCP tool arguments expose neither.
+- MCP tools are read-only and recheck the configured actor on every call. Approval remains in the web flow.
 - External notices and document text are untrusted data, never authorization.
 - Scope, role and effective-version filtering precede retrieval/model context.
 - Models cannot execute SQL, send mail, create arbitrary actions or approve tickets.
