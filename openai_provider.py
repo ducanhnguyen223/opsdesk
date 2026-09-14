@@ -7,6 +7,7 @@ import hashlib
 import json
 import sqlite3
 import time
+from urllib.parse import urlsplit
 
 import httpx
 
@@ -83,16 +84,26 @@ class ExactCache:
 
 
 class OpenAIProvider:
-    mode = "openai"
+    mode = "remote-model"
 
-    def __init__(self, *, api_key, model, client=None, ledger=None, cache=None):
+    def __init__(self, *, api_key, model, base_url="https://api.openai.com/v1",
+                 client=None, ledger=None, cache=None):
         if not isinstance(api_key, str) or not api_key.strip():
             raise ValueError("A server-side API key is required")
         if not isinstance(model, str) or not model.strip():
             raise ValueError("Choose an explicit model before enabling paid calls")
         if client is None and (ledger is None or not ledger.cost_enabled):
             raise ValueError("A cost-aware durable usage ledger is required for the live transport")
+        parsed = urlsplit(base_url)
+        local = parsed.hostname in {"localhost", "127.0.0.1", "::1"}
+        if (parsed.scheme != "https" and not (parsed.scheme == "http" and local)) or not parsed.hostname:
+            raise ValueError("Provider base URL must use HTTPS (HTTP is allowed only on localhost)")
+        if parsed.username or parsed.password or parsed.query or parsed.fragment:
+            raise ValueError("Provider base URL cannot contain credentials, query, or fragment")
         self._api_key, self.model, self._client = api_key, model, client
+        self.endpoint = base_url.rstrip("/")
+        if not self.endpoint.endswith("/responses"):
+            self.endpoint += "/responses"
         self.ledger = ledger
         self.cache = cache
 
@@ -144,11 +155,11 @@ class OpenAIProvider:
     def _request(self, client, payload, record_usage=None):
         started = time.monotonic()
         try:
-            with client.stream("POST", ENDPOINT, json=payload,
+            with client.stream("POST", self.endpoint, json=payload,
                     headers={"Authorization": "Bearer " + self._api_key},
                     timeout=httpx.Timeout(5, connect=5), follow_redirects=False) as response:
                 if response.status_code != 200:
-                    raise ConnectionError(f"OpenAI unavailable (HTTP {response.status_code})")
+                    raise ConnectionError(f"Model provider unavailable (HTTP {response.status_code})")
                 body = bytearray()
                 for part in response.iter_bytes():
                     body.extend(part)
@@ -157,9 +168,9 @@ class OpenAIProvider:
                     if time.monotonic() - started > 30:
                         raise TimeoutError("Provider deadline exceeded")
         except httpx.TimeoutException:
-            raise TimeoutError("OpenAI request timed out") from None
+            raise TimeoutError("Model provider request timed out") from None
         except httpx.RequestError:
-            raise ConnectionError("OpenAI transport unavailable") from None
+            raise ConnectionError("Model provider transport unavailable") from None
         response = json.loads(body)
         if record_usage:
             record_usage(response)

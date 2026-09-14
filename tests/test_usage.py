@@ -154,6 +154,18 @@ class UsageChecks(unittest.TestCase):
                 UsageLedger(Path(directory) / "usage.sqlite3", max_requests=1,
                             per_actor_requests=1, **kwargs)
 
+    def test_zero_priced_provider_still_tracks_usage(self):
+        with tempfile.TemporaryDirectory() as directory:
+            ledger = UsageLedger(Path(directory) / "usage.sqlite3", max_requests=1,
+                per_actor_requests=1, budget_usd=1, input_usd_per_million=0,
+                output_usd_per_million=0)
+            actor = {"tenant_id": "A", "id": "operator"}
+            call = ledger.reserve(actor, "free-model", "v1",
+                                  input_upper_tokens=10, output_upper_tokens=10)
+            ledger.record_usage(call, {"usage": {"input_tokens": 7, "output_tokens": 3}})
+            ledger.finish(call, "completed")
+            self.assertEqual(ledger.summary(actor)["accounted_cost_usd"], 0.0)
+
     def test_existing_ledger_schema_migrates_without_losing_rows(self):
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "usage.sqlite3"

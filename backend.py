@@ -140,7 +140,7 @@ def analyse(store, token, message, provider, clock):
                   created_at=datetime.now(timezone.utc).isoformat(),
                   clarification_questions=[], verified_facts=[], affected_orders=[],
                   recommended_actions=[], citations=[], draft_message=None,
-                  warnings=["OpenAI-assisted analysis; review before approval." if getattr(provider, "mode", None) == "openai"
+                  warnings=["Model-assisted analysis; review before approval." if getattr(provider, "mode", None) == "remote-model"
                             else "Offline deterministic demo; not a live AI response."], trace_id=str(uuid4()))
     shipment_id, context = None, {}
     with store.connect() as db:

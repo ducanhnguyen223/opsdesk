@@ -26,6 +26,12 @@ python3 -m venv .venv
 .venv/bin/python app.py
 ```
 
+To use a Responses-compatible model, copy `.env.example`, fill it in, then start with:
+
+```sh
+.venv/bin/python app.py --provider-config .env
+```
+
 API documentation is available at `http://127.0.0.1:8767/docs`. A minimal flow is:
 
 1. `POST /api/demo/login` with `{"actor_id":"A-operator"}`

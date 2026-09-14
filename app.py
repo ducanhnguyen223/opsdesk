@@ -16,6 +16,43 @@ from backend import (Store, Problem, analyse, approve, authenticate, evidence,
 import json
 from workspace_api import workspace_router, check_snapshot_access
 from cases_api import cases_router, seed_cases
+from openai_provider import ExactCache, OpenAIProvider
+from usage import UsageLedger
+
+
+CONFIG_KEYS = {"LLM_API_KEY", "LLM_BASE_URL", "LLM_MODEL", "LLM_API_FORMAT",
+               "LLM_INPUT_USD_PER_MILLION", "LLM_OUTPUT_USD_PER_MILLION",
+               "OPSDESK_BUDGET_USD"}
+
+
+def configured_provider(config_path, db_path):
+    values = {}
+    for number, raw in enumerate(Path(config_path).read_text().splitlines(), 1):
+        line = raw.strip()
+        if not line or line.startswith("#"):
+            continue
+        if "=" not in line:
+            raise ValueError(f"Invalid config line {number}")
+        key, value = (part.strip() for part in line.split("=", 1))
+        if key not in CONFIG_KEYS:
+            continue
+        if len(value) >= 2 and value[0] == value[-1] and value[0] in "\"'":
+            value = value[1:-1]
+        values[key] = value
+    missing = sorted(key for key in CONFIG_KEYS if not values.get(key))
+    if missing:
+        raise ValueError("Missing provider settings: " + ", ".join(missing))
+    if values["LLM_API_FORMAT"] != "responses":
+        raise ValueError("LLM_API_FORMAT must be responses")
+    db = Path(db_path)
+    ledger = UsageLedger(db.with_name(db.stem + ".provider-usage.sqlite3"),
+        max_requests=20, per_actor_requests=10,
+        budget_usd=values["OPSDESK_BUDGET_USD"],
+        input_usd_per_million=values["LLM_INPUT_USD_PER_MILLION"],
+        output_usd_per_million=values["LLM_OUTPUT_USD_PER_MILLION"])
+    return OpenAIProvider(api_key=values["LLM_API_KEY"], model=values["LLM_MODEL"],
+        base_url=values["LLM_BASE_URL"], ledger=ledger,
+        cache=ExactCache(db.with_name(db.stem + ".provider-cache.sqlite3")))
 
 
 class StrictModel(BaseModel):
@@ -125,7 +162,7 @@ def create_app(db_path, *, demo_login=False, provider=fake_provider, clock=None)
         if (web_dir / "index.html").is_file():
             return FileResponse(web_dir / "index.html")
         return {"name": "OpsDesk API", "health": "/health", "docs": "/docs"}
-    mode = "openai" if getattr(provider, "mode", None) == "openai" else "offline-deterministic"
+    mode = "remote-model" if getattr(provider, "mode", None) == "remote-model" else "offline-deterministic"
     api.include_router(workspace_router(store, clock, mode))
     api.include_router(cases_router(store, clock))
     api.add_middleware(TrustedHostMiddleware, allowed_hosts=["127.0.0.1", "localhost", "[::1]", "testserver"])
@@ -240,6 +277,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Local-only OpsDesk offline demo")
     parser.add_argument("--port", type=int, default=8767)
     parser.add_argument("--db", default=str(Path(__file__).parent / "opsdesk.sqlite3"))
+    parser.add_argument("--provider-config", help="Enable a Responses-compatible model from this config file")
     args = parser.parse_args()
-    uvicorn.run(create_app(args.db, demo_login=True), host="127.0.0.1", port=args.port,
+    provider = configured_provider(args.provider_config, args.db) if args.provider_config else fake_provider
+    uvicorn.run(create_app(args.db, demo_login=True, provider=provider), host="127.0.0.1", port=args.port,
                 proxy_headers=False, access_log=False)

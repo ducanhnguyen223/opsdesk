@@ -21,14 +21,14 @@ class UsageLedger:
                 values = [Decimal(str(value)) for value in pricing]
             except (InvalidOperation, ValueError):
                 raise ValueError("Budget and token rates must be finite positive numbers") from None
-            if any(not value.is_finite() or value <= 0 for value in values):
-                raise ValueError("Budget and token rates must be finite positive numbers")
+            if not values[0].is_finite() or values[0] <= 0 or any(
+                    not value.is_finite() or value < 0 for value in values[1:]):
+                raise ValueError("Budget must be positive and token rates non-negative")
             self.budget_nano_usd = int((values[0] * 1_000_000_000).to_integral_value(ROUND_FLOOR))
             self.input_nano_per_token = int((values[1] * 1000).to_integral_value(ROUND_CEILING))
             self.output_nano_per_token = int((values[2] * 1000).to_integral_value(ROUND_CEILING))
-            if min(self.budget_nano_usd, self.input_nano_per_token,
-                   self.output_nano_per_token) < 1:
-                raise ValueError("Budget and token rates are too small to enforce")
+            if self.budget_nano_usd < 1:
+                raise ValueError("Budget is too small to enforce")
         else:
             self.budget_nano_usd = self.input_nano_per_token = self.output_nano_per_token = 0
         with closing(self.connect()) as db, db:

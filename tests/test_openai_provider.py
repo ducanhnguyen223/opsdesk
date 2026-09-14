@@ -105,6 +105,15 @@ class OpenAIContractChecks(unittest.TestCase):
         self.assertNotIn("test-not-a-real-key", request.content.decode())
         self.assertEqual(body["model"], "test-model")
 
+    def test_custom_responses_endpoint(self):
+        requests = []
+        with httpx.Client(transport=httpx.MockTransport(
+                lambda request: requests.append(request) or httpx.Response(200, json=completed()))) as client:
+            provider = OpenAIProvider(api_key="test", model="model-a",
+                                      base_url="https://api.example.com/v1", client=client)
+            provider("SHP-1042", CONTEXT)
+        self.assertEqual(str(requests[0].url), "https://api.example.com/v1/responses")
+
     def test_refusal_incomplete_and_malformed_fail_closed(self):
         bodies = [{"status": "incomplete", "output": []},
                   completed([{"type": "refusal", "refusal": "No"}]),
