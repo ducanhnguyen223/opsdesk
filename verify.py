@@ -14,6 +14,7 @@ def main():
     commands = [
         [sys.executable, "-m", "pip", "check"],
         [sys.executable, "-m", "unittest", "discover", "-s", "tests", "-q"],
+        [sys.executable, "skills/operations-triage/scripts/check_examples.py"],
         [sys.executable, "evaluate.py"],
         [sys.executable, "demo.py"],
     ]

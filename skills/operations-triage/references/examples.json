@@ -1,0 +1,24 @@
+[
+  {
+    "input": {"actor": "A-operator", "case_id": "EX-9000", "query": "giao chậm, thông báo khách hàng"},
+    "expected": {
+      "shipment_id": "SHP-9000",
+      "shipment_status": "delayed",
+      "active_order_ids": ["ORD-9000-1", "ORD-9000-2"],
+      "procedure_ids": ["A-STANDARD-V2"],
+      "actions": ["notify_customer"],
+      "manual_review": false
+    }
+  },
+  {
+    "input": {"actor": "A-operator", "case_id": "EX-9003", "query": "giao chậm, thông báo khách hàng"},
+    "expected": {
+      "shipment_id": "SHP-9003",
+      "shipment_status": "delayed",
+      "active_order_ids": ["ORD-9003-1", "ORD-9003-2"],
+      "procedure_ids": ["A-CONFLICT-V1", "A-CONFLICT-V2"],
+      "actions": ["hold_for_manager", "notify_customer"],
+      "manual_review": true
+    }
+  }
+]

@@ -47,6 +47,8 @@ to launch this read-only stdio server:
 
 It exposes `list_cases`, `get_case` and `search_procedures`. The host fixes the actor identity;
 tools cannot choose a tenant, database, approval or external action.
+[`operations-triage`](skills/operations-triage/SKILL.md) adds the evidence-first review workflow
+and maintained normal/conflict examples.
 
 Run the offline checks with:
 

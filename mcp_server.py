@@ -66,13 +66,17 @@ def build_server(db_path, actor_id):
             with store.connect() as db:
                 current = bound_actor(db, actor_id)
                 shipment = record(db, "shipments", shipment_id, current["tenant_id"])
-                hits = search_scoped_procedures(query, scoped_rows(db, "documents", current["tenant_id"]),
+                documents = scoped_rows(db, "documents", current["tenant_id"])
+                hits = search_scoped_procedures(query, documents,
                     tenant_id=current["tenant_id"], role=current["role"],
                     policy_scope=shipment["policy_scope"], as_of=datetime.now(timezone.utc),
                     limit=limit)
         except Problem as exc:
             raise ToolError(exc.detail) from None
-        return {"shipment_id": shipment_id, "items": hits, "synthetic": True}
+        actions = {document["id"]: document["action"] for document in documents}
+        return {"shipment_id": shipment_id,
+                "items": [{**hit, "action": actions[hit["document_id"]]} for hit in hits],
+                "synthetic": True}
 
     return server
 

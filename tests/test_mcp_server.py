@@ -38,6 +38,8 @@ class MCPChecks(unittest.IsolatedAsyncioTestCase):
                 self.assertFalse(search.is_error)
                 self.assertTrue(all(item["document_id"].startswith("A-")
                                     for item in search.structured_content["items"]))
+                self.assertEqual({item["action"] for item in search.structured_content["items"]},
+                                 {"notify_customer"})
                 self.assertTrue((await client.call_tool(
                     "get_case", {"case_id": "EX-9100"})).is_error)
                 self.assertTrue((await client.call_tool(

@@ -76,6 +76,9 @@ not a reduced substitute for the full plan in `../../../docs/plans/2026-09-10-sa
 - [x] Read-only local MCP adapter with host-bound actor identity and bounded `list_cases`,
   `get_case` and `search_procedures` tools. MCP client tests cover tool schemas, tenant denial,
   revoked identity and output limits; approval and external actions are not exposed.
+- [x] `operations-triage` skill packages the case-to-evidence workflow with maintained normal and
+  conflicting-policy examples. Its runnable check reads only MCP-visible data and fails if the
+  example facts, procedure IDs or authorized actions drift.
 - [ ] Backend repository and working web demo delivery; verify both from the delivered artifacts.
 
 Related follow-ups remain ordered after the product: CV/profile presentation and reversible
