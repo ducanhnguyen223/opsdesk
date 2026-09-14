@@ -22,7 +22,8 @@ from usage import UsageLedger
 
 CONFIG_KEYS = {"LLM_API_KEY", "LLM_BASE_URL", "LLM_MODEL", "LLM_API_FORMAT",
                "LLM_INPUT_USD_PER_MILLION", "LLM_OUTPUT_USD_PER_MILLION",
-               "OPSDESK_BUDGET_USD"}
+               "LLM_STRUCTURED_OUTPUT", "OPSDESK_BUDGET_USD"}
+REQUIRED_CONFIG_KEYS = CONFIG_KEYS - {"LLM_STRUCTURED_OUTPUT"}
 
 
 def configured_provider(config_path, db_path):
@@ -39,11 +40,14 @@ def configured_provider(config_path, db_path):
         if len(value) >= 2 and value[0] == value[-1] and value[0] in "\"'":
             value = value[1:-1]
         values[key] = value
-    missing = sorted(key for key in CONFIG_KEYS if not values.get(key))
+    missing = sorted(key for key in REQUIRED_CONFIG_KEYS if not values.get(key))
     if missing:
         raise ValueError("Missing provider settings: " + ", ".join(missing))
     if values["LLM_API_FORMAT"] != "responses":
         raise ValueError("LLM_API_FORMAT must be responses")
+    structured = values.get("LLM_STRUCTURED_OUTPUT", "true").lower()
+    if structured not in {"true", "false"}:
+        raise ValueError("LLM_STRUCTURED_OUTPUT must be true or false")
     db = Path(db_path)
     ledger = UsageLedger(db.with_name(db.stem + ".provider-usage.sqlite3"),
         max_requests=20, per_actor_requests=10,
@@ -51,7 +55,7 @@ def configured_provider(config_path, db_path):
         input_usd_per_million=values["LLM_INPUT_USD_PER_MILLION"],
         output_usd_per_million=values["LLM_OUTPUT_USD_PER_MILLION"])
     return OpenAIProvider(api_key=values["LLM_API_KEY"], model=values["LLM_MODEL"],
-        base_url=values["LLM_BASE_URL"], ledger=ledger,
+        base_url=values["LLM_BASE_URL"], structured_output=structured == "true", ledger=ledger,
         cache=ExactCache(db.with_name(db.stem + ".provider-cache.sqlite3")))
 
 

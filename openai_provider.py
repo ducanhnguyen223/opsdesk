@@ -87,7 +87,7 @@ class OpenAIProvider:
     mode = "remote-model"
 
     def __init__(self, *, api_key, model, base_url="https://api.openai.com/v1",
-                 client=None, ledger=None, cache=None):
+                 structured_output=True, client=None, ledger=None, cache=None):
         if not isinstance(api_key, str) or not api_key.strip():
             raise ValueError("A server-side API key is required")
         if not isinstance(model, str) or not model.strip():
@@ -101,6 +101,7 @@ class OpenAIProvider:
         if parsed.username or parsed.password or parsed.query or parsed.fragment:
             raise ValueError("Provider base URL cannot contain credentials, query, or fragment")
         self._api_key, self.model, self._client = api_key, model, client
+        self.structured_output = structured_output
         self.endpoint = base_url.rstrip("/")
         if not self.endpoint.endswith("/responses"):
             self.endpoint += "/responses"
@@ -108,13 +109,18 @@ class OpenAIProvider:
         self.cache = cache
 
     def __call__(self, message, context):
-        payload = {"model": self.model, "store": False, "instructions": INSTRUCTIONS,
-            "max_output_tokens": 1200, "text": {"format": {"type": "json_schema",
-                "name": "opsdesk_policy", "strict": True, "schema": SCHEMA}},
+        instructions = INSTRUCTIONS
+        if not self.structured_output:
+            instructions += "\nReturn exactly one JSON object matching this schema: " + json.dumps(SCHEMA)
+        payload = {"model": self.model, "store": False, "instructions": instructions,
+            "max_output_tokens": 1200,
             "input": json.dumps({"notice": message, "shipment": context["shipment"],
                 "orders": [o for o in context["orders"] if o["status"] == "active"],
                 "procedures": [{k: d[k] for k in ("id", "version", "kind", "action")}
                     for d in context["documents"]], "excerpts": context["retrieved_chunks"]}, ensure_ascii=False)}
+        if self.structured_output:
+            payload["text"] = {"format": {"type": "json_schema", "name": "opsdesk_policy",
+                                "strict": True, "schema": SCHEMA}}
         cache_key = None
         if self.cache:
             cache_key = self.cache.key(context.get("actor"), payload)
@@ -192,7 +198,10 @@ class OpenAIProvider:
         texts = [p.get("text") for p in content if p.get("type") == "output_text"]
         if len(texts) != 1 or not isinstance(texts[0], str):
             raise ValueError("Expected exactly one structured provider output")
-        return self._validate(json.loads(texts[0]))
+        text = texts[0].strip()
+        if text.startswith("```") and text.endswith("```"):
+            text = "\n".join(text.splitlines()[1:-1]).strip()
+        return self._validate(json.loads(text))
 
     def _validate(self, result):
         if not isinstance(result, dict) or set(result) != set(SCHEMA["required"]):

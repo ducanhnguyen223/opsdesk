@@ -114,6 +114,16 @@ class OpenAIContractChecks(unittest.TestCase):
             provider("SHP-1042", CONTEXT)
         self.assertEqual(str(requests[0].url), "https://api.example.com/v1/responses")
 
+    def test_prompt_json_mode_accepts_fenced_json(self):
+        body = completed([{"type": "output_text", "text": "```json\n" + json.dumps(CHOICE) + "\n```"}])
+        requests = []
+        with httpx.Client(transport=httpx.MockTransport(
+                lambda request: requests.append(request) or httpx.Response(200, json=body))) as client:
+            provider = OpenAIProvider(api_key="test", model="model-a",
+                                      structured_output=False, client=client)
+            self.assertEqual(provider("SHP-1042", CONTEXT), CHOICE)
+        self.assertNotIn("text", json.loads(requests[0].content))
+
     def test_refusal_incomplete_and_malformed_fail_closed(self):
         bodies = [{"status": "incomplete", "output": []},
                   completed([{"type": "refusal", "refusal": "No"}]),
