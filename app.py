@@ -117,11 +117,14 @@ def create_app(db_path, *, demo_login=False, provider=fake_provider, clock=None)
     api = FastAPI(title="OpsDesk — offline demo", version="0.2.0")
     api.state.store = store
     web_dir = Path(__file__).parent / "web"
-    api.mount("/static", StaticFiles(directory=web_dir), name="static")
+    if web_dir.is_dir():
+        api.mount("/static", StaticFiles(directory=web_dir), name="static")
 
     @api.get("/", include_in_schema=False)
     def index():
-        return FileResponse(web_dir / "index.html")
+        if (web_dir / "index.html").is_file():
+            return FileResponse(web_dir / "index.html")
+        return {"name": "OpsDesk API", "health": "/health", "docs": "/docs"}
     mode = "openai" if getattr(provider, "mode", None) == "openai" else "offline-deterministic"
     api.include_router(workspace_router(store, clock, mode))
     api.include_router(cases_router(store, clock))

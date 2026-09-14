@@ -3,6 +3,8 @@ __pycache__/
 *.pyc
 .venv/
 .venv-embeddings/
+web/
+tests/test_web_state.js
 .env
 .env.*
 !.env.example
