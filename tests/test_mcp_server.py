@@ -40,6 +40,15 @@ class MCPChecks(unittest.IsolatedAsyncioTestCase):
                                     for item in search.structured_content["items"]))
                 self.assertEqual({item["action"] for item in search.structured_content["items"]},
                                  {"notify_customer"})
+                conflict = await client.call_tool("search_procedures",
+                    {"shipment_id": "SHP-9003", "query": "giao chậm"})
+                self.assertEqual({item["document_id"] for item in
+                                  conflict.structured_content["applicable_procedures"]},
+                                 {"A-CONFLICT-V1", "A-CONFLICT-V2"})
+                self.assertEqual({item["action"] for item in
+                                  conflict.structured_content["applicable_procedures"]},
+                                 {"notify_customer", "hold_for_manager"})
+                self.assertTrue(conflict.structured_content["applicable_procedures_complete"])
                 self.assertTrue((await client.call_tool(
                     "get_case", {"case_id": "EX-9100"})).is_error)
                 self.assertTrue((await client.call_tool(

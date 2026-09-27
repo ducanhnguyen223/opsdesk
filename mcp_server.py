@@ -11,11 +11,13 @@ from pydantic import Field
 
 from backend import Problem, Store, bound_actor, record, scoped_rows
 from cases_api import list_case_records
-from retrieval import search_procedures as search_scoped_procedures
+from retrieval import (authorized_documents, policy_citations,
+                       search_procedures as search_scoped_procedures)
 
 
 READ_ONLY = ToolAnnotations(readOnlyHint=True, destructiveHint=False,
                             idempotentHint=True, openWorldHint=False)
+MAX_APPLICABLE_PROCEDURES = 20
 
 
 def build_server(db_path, actor_id):
@@ -67,15 +69,24 @@ def build_server(db_path, actor_id):
                 current = bound_actor(db, actor_id)
                 shipment = record(db, "shipments", shipment_id, current["tenant_id"])
                 documents = scoped_rows(db, "documents", current["tenant_id"])
+                as_of = datetime.now(timezone.utc)
                 hits = search_scoped_procedures(query, documents,
                     tenant_id=current["tenant_id"], role=current["role"],
-                    policy_scope=shipment["policy_scope"], as_of=datetime.now(timezone.utc),
-                    limit=limit)
+                    policy_scope=shipment["policy_scope"], as_of=as_of, limit=limit)
+                applicable = authorized_documents(documents, tenant_id=current["tenant_id"],
+                    role=current["role"], policy_scope=shipment["policy_scope"], as_of=as_of)
+                citations = policy_citations(query, applicable)
         except Problem as exc:
             raise ToolError(exc.detail) from None
         actions = {document["id"]: document["action"] for document in documents}
+        complete = len(citations) <= MAX_APPLICABLE_PROCEDURES
         return {"shipment_id": shipment_id,
                 "items": [{**hit, "action": actions[hit["document_id"]]} for hit in hits],
+                "applicable_procedures": [
+                    {**citation, "action": actions[citation["document_id"]]}
+                    for citation in citations[:MAX_APPLICABLE_PROCEDURES]
+                ],
+                "applicable_procedures_complete": complete,
                 "synthetic": True}
 
     return server
