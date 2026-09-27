@@ -58,7 +58,7 @@ Run the offline checks with:
 
 ## Evaluation
 
-The frozen workflow set currently passes 60/60 cases with no cross-scope authorization.
+The frozen synthetic, offline workflow set currently passes 60/60 cases with no cross-scope authorization.
 On 28 synthetic Vietnamese retrieval queries, top-1 accuracy was 64.3% for BM25, 71.4% for dense
 retrieval and 78.6% for reciprocal-rank fusion. A separate cache experiment rejected
 semantic reuse because negated requests scored above valid paraphrases; exact caching remains.
