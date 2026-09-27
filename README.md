@@ -50,6 +50,10 @@ tools cannot choose a tenant, database, approval or external action.
 [`operations-triage`](skills/operations-triage/SKILL.md) adds the evidence-first review workflow
 and maintained normal/conflict examples.
 
+An experimental offline tool-use environment is documented in [`docs/AGENT_GYM.md`](docs/AGENT_GYM.md).
+It uses temporary synthetic episodes, a small development/held-out tenant split and exact source
+quotes; it does not train a model or yet constitute a meaningful benchmark.
+
 Run the offline checks with:
 
 ```sh
